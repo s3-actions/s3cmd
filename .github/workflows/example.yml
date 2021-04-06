@@ -5,13 +5,10 @@ jobs:
     
     runs-on: ubuntu-latest
     
-    name: A job to say hello
+    name: expose s3cmd
     steps:
-    - name: Hello world action step
-      id: hello
-      uses: actions/hello-world-javascript-action@v1.1
-      with:
-        who-to-greet: 'Mona the Octocat'
-
+    - name: s3cmd
+      id: s3cmd
+      uses: s3-actions/s3cmd@main
     - name: Get the output time
-      run: echo "The time was ${{ steps.hello.outputs.stdout }}"
+      run: echo "The time was ${{ steps.s3cmd.outputs.stdout }}"

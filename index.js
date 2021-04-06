@@ -1,4 +1,4 @@
-const conf = (access_key, secret_key) => `[default]
+const conf = (cluster, access_key, secret_key) => `[default]
 access_key = ${access_key}
 access_token = 
 add_encoding_exts = 
@@ -32,8 +32,8 @@ gpg_decrypt = %(gpg_command)s -d --verbose --no-use-agent --batch --yes --passph
 gpg_encrypt = %(gpg_command)s -c --verbose --no-use-agent --batch --yes --passphrase-fd %(passphrase_fd)s -o %(output_file)s %(input_file)s
 gpg_passphrase = f3Gf3dgl7jpY6(Tgvb$fg8Jf?13de34dF
 guess_mime_type = True
-host_base = eu-central-1.linodeobjects.com
-host_bucket = %(bucket)s.eu-central-1.linodeobjects.com
+host_base = ${cluster}.linodeobjects.com
+host_bucket = %(bucket)s.${cluster}.linodeobjects.com
 human_readable_sizes = True
 invalidate_default_index_on_cf = False
 invalidate_default_index_root_on_cf = True
@@ -78,7 +78,7 @@ use_http_expect = False
 use_https = True
 use_mime_magic = True
 verbosity = ERROR
-website_endpoint = http://%(bucket)s.website-eu-central-1.linodeobjects.com/
+website_endpoint = http://%(bucket)s.website-${cluster}.linodeobjects.com/
 website_error = 404.html
 website_index = index.html
 `;
@@ -93,6 +93,6 @@ const { writeFileSync } = require('fs')
 
 const result = execSync("/bin/bash -c 'pip3 install s3cmd --no-cache'").toString()
 
-writeFileSync('/github/home/.s3cfg', conf(core.getInput('access_key'), core.getInput('secret_key')), 'utf-8')
+writeFileSync('/github/home/.s3cfg', conf(core.getInput('cluster'), core.getInput('access_key'), core.getInput('secret_key')), 'utf-8')
 
 return core.setOutput("stdout", result);

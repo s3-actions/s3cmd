@@ -1,7 +1,10 @@
 name: 'Expose S3cmd utility'
 description: 'expose s3cmd'
 inputs:
-    access_key: 
+  cluster:
+    description: 's3 region'
+    required: true
+  access_key: 
     description: 's3 access key'
     required: true
   secret_key: 

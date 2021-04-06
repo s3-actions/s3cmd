@@ -12,6 +12,7 @@ jobs:
       - name: s3cmd
         uses: s3-actions/s3cmd@main
         with:
+          cluster: 'eu-central-1'
           access_key: ${{ secrets.S3_ACCESS_KEY }}
           secret_key: ${{ secrets.S3_SECRET_KEY }}
       - run: s3cmd

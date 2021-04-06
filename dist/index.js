@@ -445,9 +445,9 @@ const providers = {
   }),
   linode: ({ cluster = 'eu-central-1', access_key = '', secret_key = '' }) => ({
     bucket_location: 'US',
-    host_base: 'linodeobejcts.com',
-    host_bucket: `%(bucket)s.${cluster}.linodeobejcts.com`,
-    website_endpoint: `http://%(bucket)s.s3-website-${cluster}.linodeobejcts.com/`,
+    host_base: `${cluster}.linodeobjects.com`,
+    host_bucket: `%(bucket)s.${cluster}.linodeobjects.com`,
+    website_endpoint: `http://%(bucket)s.website-${cluster}.linodeobjects.com/`,
     access_key,
     secret_key,
   })

@@ -26,7 +26,7 @@ on:
       - main
 
 jobs:
-  expose_s3cmd:
+  use_s3cmd:
     runs-on: ubuntu-latest
     
     name: Use S3cmd
@@ -44,3 +44,5 @@ jobs:
           s3cmd put bar s3://foobarbaz
 
 ```
+
+

@@ -29,7 +29,7 @@ jobs:
     name: expose s3cmd
     steps:
       - name: set up s3cmd
-        uses: s3-actions/s3cmd@main
+        uses: s3-actions/s3cmd@v0
         with:
           cluster: 'eu-central-1'
           access_key: ${{ secrets.S3_ACCESS_KEY }}

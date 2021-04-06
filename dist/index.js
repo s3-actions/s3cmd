@@ -16,7 +16,7 @@ exec("python -V", (error, stdout, stderr) => {
     core.setFailed(stderr);
     return;
   }
-  return core.getInput(`stdout: ${stdout}`);
+  return core.setOutput("stdout", stdout);
 });
 
 

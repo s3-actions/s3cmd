@@ -6,8 +6,8 @@ inputs:
     required: true
     default: 'World'
 outputs:
-  time: # id of output
-    description: 'The time we greeted you'
+  stdout: # id of output
+    description: 'capture stdout'
 runs:
   using: 'node12'
   main: 'dist/index.js'

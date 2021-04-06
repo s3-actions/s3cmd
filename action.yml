@@ -1,5 +1,9 @@
 name: 'Use S3cmd'
 description: 'Use S3cmd cli to interact with s3 object storage.'
+branding:
+  icon: 'award'  
+  color: 'green'
+
 inputs:
   cluster:
     description: 's3 region'
@@ -10,6 +14,7 @@ inputs:
   secret_key: 
     description: 's3 secret key'
     required: true
+
 runs:
   using: 'node12'
   main: 'dist/index.js'

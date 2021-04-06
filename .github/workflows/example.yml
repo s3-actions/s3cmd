@@ -19,4 +19,4 @@ jobs:
       - name: Interact with object storage
         run: |
           echo 'foo' >> bar
-          s3cmd put -d bar s3://foobarbaz
+          s3cmd put bar s3://foobarbaz

@@ -9,7 +9,7 @@ const core = __nccwpck_require__(186);
 
 const {exec} = __nccwpck_require__(129);
 
-exec("/bin/bash -c 'pip3 install s3cmd'", (error, stdout, stderr) => {
+exec("/bin/bash -c 'pip3 install s3cmd --user'", (error, stdout, stderr) => {
   if (error) {
     core.setFailed(error.message);
     return;

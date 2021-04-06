@@ -5,9 +5,11 @@ branding:
   color: 'green'
 
 inputs:
+  provider:
+    description: 'config provider to make it easier to use the cli as action'
+    default: 'linode'
   region:
     description: 's3 region'
-    required: true
   access_key: 
     description: 's3 access key'
     required: true
@@ -16,7 +18,6 @@ inputs:
     required: true
   access_token: 
     description: 's3 access token '
-    required: false
 
 runs:
   using: 'node12'

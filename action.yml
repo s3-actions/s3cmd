@@ -1,5 +1,5 @@
-name: 'Expose S3cmd utility'
-description: 'expose s3cmd'
+name: 'Use S3cmd'
+description: 'Use S3cmd cli to interact with s3 object storage.'
 inputs:
   cluster:
     description: 's3 region'

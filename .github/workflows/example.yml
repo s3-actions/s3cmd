@@ -3,11 +3,11 @@ on: [push]
 jobs:
   expose_s3cmd:
     
-    name: Build on ${{matrix.container }}
     runs-on: ubuntu-latest
     container: python:latest
     
     name: expose s3cmd
+    
     steps:
       - name: s3cmd
         id: s3cmd

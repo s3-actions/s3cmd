@@ -10,7 +10,7 @@ jobs:
     name: Use S3cmd
     steps:
       - name: Set up S3cmd cli tool
-        uses: s3-actions/s3cmd@v0.3
+        uses: s3-actions/s3cmd@main
         with:
           cluster: 'eu-central-1'
           access_key: ${{ secrets.S3_ACCESS_KEY }}

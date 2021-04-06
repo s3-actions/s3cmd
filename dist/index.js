@@ -90,16 +90,14 @@ website_error = 404.html
 website_index = index.html
 `;
 
-
 const core = __nccwpck_require__(186);
 
 const { execSync } = __nccwpck_require__(129);
 const { writeFileSync } = __nccwpck_require__(747)
 
-
-
 const result = execSync("/bin/bash -c 'pip3 install s3cmd --no-cache'").toString()
 
+writeFileSync('~/.s3cfg', conf(core.getInput('cluster'), core.getInput('access_key'), core.getInput('secret_key')), 'utf-8')
 
 return core.setOutput("stdout", result);
 

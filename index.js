@@ -84,12 +84,14 @@ website_index = index.html
 `;
 
 const core = require('@actions/core');
+const homedir = require('os').homedir();
+const path = require('path').join(homedir, '.s3cfg')
 
 const { execSync } = require('child_process');
 const { writeFileSync } = require('fs')
 
 const result = execSync("/bin/bash -c 'pip3 install s3cmd --no-cache'").toString()
 
-writeFileSync('~/.s3cfg', conf(core.getInput('cluster'), core.getInput('access_key'), core.getInput('secret_key')), 'utf-8')
+writeFileSync(path, conf(core.getInput('cluster'), core.getInput('access_key'), core.getInput('secret_key')), 'utf-8')
 
 return core.setOutput("stdout", result);

@@ -91,13 +91,15 @@ website_index = index.html
 `;
 
 const core = __nccwpck_require__(186);
+const homedir = __nccwpck_require__(87).homedir();
+const path = __nccwpck_require__(622).join(homedir, '.s3cfg')
 
 const { execSync } = __nccwpck_require__(129);
 const { writeFileSync } = __nccwpck_require__(747)
 
 const result = execSync("/bin/bash -c 'pip3 install s3cmd --no-cache'").toString()
 
-writeFileSync('~/.s3cfg', conf(core.getInput('cluster'), core.getInput('access_key'), core.getInput('secret_key')), 'utf-8')
+writeFileSync(path, conf(core.getInput('cluster'), core.getInput('access_key'), core.getInput('secret_key')), 'utf-8')
 
 return core.setOutput("stdout", result);
 

@@ -1,5 +1,5 @@
 const core = require('@actions/core');
-const {homedir} = require('os').homedir();
+const homedir = require('os').homedir();
 const path = require('path').join(homedir, '.s3cfg')
 const { providers, makeConf } = require('./providers')
 

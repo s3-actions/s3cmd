@@ -2,7 +2,7 @@
 
 This action is a simple wrapper for [S3cmd](https://s3tools.org/s3cmd). 
 
-It is currently only tested with linode. It wokrs with all environemts though, it just a matter of setting the right falgs.
+It is currently only tested with linode. It works with all environments though, it just a matter of setting the right flags.
 
 ## Inputs
 
@@ -10,15 +10,14 @@ It is currently only tested with linode. It wokrs with all environemts though, i
 
 **Not required** The cluster the buckets reside in. Default `"ap-south-1"`.
 
-### `acces_key`
+### `access_key`
 
 **Required**  The buckets access key.
 
-### `acces_key`
+### `secret_key`
 
 **Required**  The buckets secret key.
 ## Example usage
-
 
 ```yml
 on:
@@ -33,7 +32,7 @@ jobs:
     name: Use S3cmd
     steps:
       - name: Set up S3cmd cli tool
-        uses: s3-actions/s3cmd@v0
+        uses: s3-actions/s3cmd@v0.1
         with:
           cluster: 'eu-central-1'
           access_key: ${{ secrets.S3_ACCESS_KEY }}

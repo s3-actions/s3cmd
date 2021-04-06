@@ -22,6 +22,7 @@ jobs:
           s3cmd put bar s3://foobarbaz
           buck="github-action-$(< /dev/urandom tr -cd "a-g0-9" | head -c 32; echo)"
           s3cmd mb s3://$buck
+          mkdir -p baz/bar
           echo 'fizz' >> baz/bar/faz
           s3cmd sync -d --recursive --acl-public baz s3://$buck
           s3cmd rm -r --force s3://$buck

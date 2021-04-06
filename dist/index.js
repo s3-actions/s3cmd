@@ -16,10 +16,9 @@ module.exports = JSON.parse("{\"access_key\":\"\",\"access_token\":\"\",\"add_en
 const core = __nccwpck_require__(186);
 const homedir = __nccwpck_require__(87).homedir();
 const path = __nccwpck_require__(622).join(homedir, '.s3cfg')
-const { providers, makeConf } = __nccwpck_require__(438)
-
 const { execSync } = __nccwpck_require__(129);
-const { writeFileSync } = __nccwpck_require__(747)
+const { createWriteStream } = __nccwpck_require__(747)
+const { providers, makeConf } = __nccwpck_require__(438)
 
 execSync("/bin/bash -c 'pip3 install s3cmd --no-cache'")
 
@@ -29,7 +28,13 @@ const conf = makeConf(providers.linode({
   secret_key: core.getInput("secret_key")
 }))
 
-writeFileSync(path, conf, 'utf-8')
+
+const writer = createWriteStream(path)
+
+for (const line of conf) {
+  writer.write(line+'\r\n')
+}
+
 
 return 0
 

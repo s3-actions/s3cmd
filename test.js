@@ -1,13 +1,15 @@
-const core = require('@actions/core');
-const homedir = require('os').homedir();
-const path = require('path').join(homedir, '.s3cfg')
+const { createWriteStream } = require('fs')
 const { providers, makeConf } = require('./providers')
 
 const conf = makeConf(providers.linode({
-  cluster: core.getInput("region"),
-  access_key: core.getInput("access_key"),
-  secret_key: core.getInput("secret_key")
+  cluster: "eu-central-1",
+  access_key: 'top-secret',
+  secret_key: 'more secret'
 }))
 
+const writer = createWriteStream('test')
 
-writeFileSync(path, conf, 'utf-8')
+for (const line of conf) {
+  writer.write(line+'\r\n')
+}
+

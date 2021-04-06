@@ -7,10 +7,12 @@ jobs:
     container: python:latest
     
     name: expose s3cmd
-    
+
     steps:
       - name: s3cmd
-        id: s3cmd
         uses: s3-actions/s3cmd@main
-      - name: Get the output time
-        run: echo "The time was ${{ steps.s3cmd.outputs.stdout }}"
+        with:
+          access_key: ${{ secrets.S3_ACCESS_KEY }}
+          secret_key: ${{ secrets.S3_SECRET_KEY }}
+      - run: s3cmd
+

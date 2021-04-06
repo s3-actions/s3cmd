@@ -1,8 +1,12 @@
 name: 'Expose S3cmd utility'
 description: 'expose s3cmd'
-outputs:
-  stdout:
-    description: 'capture stdout'
+inputs:
+    access_key: 
+    description: 's3 access key'
+    required: true
+  secret_key: 
+    description: 's3 secret key'
+    required: true
 runs:
   using: 'node12'
   main: 'dist/index.js'

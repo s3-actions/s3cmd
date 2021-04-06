@@ -2,13 +2,10 @@ on: [push]
 
 jobs:
   expose_s3cmd:
-    
     runs-on: ubuntu-latest
     
     name: expose s3cmd
-
     steps:
-
       - name: set up s3cmd
         uses: s3-actions/s3cmd@main
         with:

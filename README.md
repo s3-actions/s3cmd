@@ -1,21 +1,43 @@
-# Hello world javascript action
+# S3cmd
 
-This action prints "Hello World" or "Hello" + the name of a person to greet to the log.
+This action is a simple wrapper for [S3cmd](https://s3tools.org/s3cmd). 
+
+It is currently only tested with linode. It wokrs with all environemts though, it just a matter of setting the right falgs.
 
 ## Inputs
 
-### `who-to-greet`
+### `cluster`
 
-**Required** The name of the person to greet. Default `"World"`.
+**Not required** The cluster the buckets reside in. Default `"ap-south-1"`.
 
-## Outputs
+### `acces_key`
 
-### `time`
+**Required**  The buckets access key.
 
-The time we greeted you.
+### `acces_key`
 
+**Required**  The buckets secret key.
 ## Example usage
 
-uses: actions/hello-world-javascript-action@v1.1
-with:
-  who-to-greet: 'Mona the Octocat'
+on: [push]
+
+```yml
+jobs:
+  expose_s3cmd:
+    runs-on: ubuntu-latest
+    
+    name: expose s3cmd
+    steps:
+      - name: set up s3cmd
+        uses: s3-actions/s3cmd@main
+        with:
+          cluster: 'eu-central-1'
+          access_key: ${{ secrets.S3_ACCESS_KEY }}
+          secret_key: ${{ secrets.S3_SECRET_KEY }}
+
+      - name: run s3 action
+        run: |
+          echo 'foo' >> bar
+          s3cmd put bar s3://foobarbaz
+
+```

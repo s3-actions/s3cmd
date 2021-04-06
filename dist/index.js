@@ -14,7 +14,7 @@ module.exports = JSON.parse("{\"access_key\":\"\",\"access_token\":\"\",\"add_en
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __nccwpck_require__) => {
 
 const core = __nccwpck_require__(186);
-const {homedir} = __nccwpck_require__(87).homedir();
+const homedir = __nccwpck_require__(87).homedir();
 const path = __nccwpck_require__(622).join(homedir, '.s3cfg')
 const { providers, makeConf } = __nccwpck_require__(438)
 

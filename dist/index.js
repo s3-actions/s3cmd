@@ -2,107 +2,36 @@ module.exports =
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ 382:
+/***/ ((module) => {
+
+"use strict";
+module.exports = JSON.parse("{\"access_key\":\"\",\"access_token\":\"\",\"add_encoding_exts\":\"\",\"add_headers\":\"\",\"bucket_location\":\"US\",\"ca_certs_file\":\"\",\"cache_file\":\"\",\"check_ssl_certificate\":\"True\",\"check_ssl_hostname\":\"True\",\"cloudfront_host\":\"cloudfront.amazonaws.com\",\"connection_pooling\":\"True\",\"content_disposition\":\"\",\"content_type\":\"\",\"default_mime_type\":\"binary/octet-stream\",\"delay_updates\":\"False\",\"delete_after\":\"False\",\"delete_after_fetch\":\"False\",\"delete_removed\":\"False\",\"dry_run\":\"False\",\"enable_multipart\":\"True\",\"encoding\":\"UTF-8\",\"encrypt\":\"False\",\"expiry_date\":\"\",\"expiry_days\":\"\",\"expiry_prefix\":\"\",\"follow_symlinks\":\"False\",\"force\":\"False\",\"get_continue\":\"False\",\"gpg_command\":\"/usr/bin/gpg\",\"gpg_decrypt\":\"%(gpg_command)s -d --verbose --no-use-agent --batch --yes --passphrase-fd %(passphrase_fd)s -o %(output_file)s %(input_file)s\",\"gpg_encrypt\":\"%(gpg_command)s -c --verbose --no-use-agent --batch --yes --passphrase-fd %(passphrase_fd)s -o %(output_file)s %(input_file)s\",\"gpg_passphrase\":\"\",\"guess_mime_type\":\"True\",\"host_base\":\"s3.amazonaws.com\",\"host_bucket\":\"%(bucket)s.s3.amazonaws.com\",\"human_readable_sizes\":\"False\",\"invalidate_default_index_on_cf\":\"False\",\"invalidate_default_index_root_on_cf\":\"True\",\"invalidate_on_cf\":\"False\",\"kms_key\":\"\",\"limit\":\"-1\",\"limitrate\":\"0\",\"list_md5\":\"False\",\"log_target_prefix\":\"\",\"long_listing\":\"False\",\"max_delete\":\"-1\",\"mime_type\":\"\",\"multipart_chunk_size_mb\":\"15\",\"multipart_max_chunks\":\"10000\",\"preserve_attrs\":\"True\",\"progress_meter\":\"True\",\"proxy_host\":\"\",\"proxy_port\":\"0\",\"public_url_use_https\":\"False\",\"put_continue\":\"False\",\"recursive\":\"False\",\"recv_chunk\":\"65536\",\"reduced_redundancy\":\"False\",\"requester_pays\":\"False\",\"restore_days\":\"1\",\"restore_priority\":\"Standard\",\"secret_key\":\"\",\"send_chunk\":\"65536\",\"server_side_encryption\":\"False\",\"signature_v2\":\"False\",\"signurl_use_https\":\"False\",\"simpledb_host\":\"sdb.amazonaws.com\",\"skip_existing\":\"False\",\"socket_timeout\":\"300\",\"stats\":\"False\",\"stop_on_error\":\"False\",\"storage_class\":\"\",\"throttle_max\":\"100\",\"upload_id\":\"\",\"urlencoding_mode\":\"normal\",\"use_http_expect\":\"False\",\"use_https\":\"True\",\"use_mime_magic\":\"True\",\"verbosity\":\"WARNING\",\"website_endpoint\":\"http://%(bucket)s.s3-website-%(location)s.amazonaws.com/\",\"website_error\":\"\",\"website_index\":\"index.html\"}");
+
+/***/ }),
+
 /***/ 932:
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __nccwpck_require__) => {
 
-const conf = (cluster, access_key, secret_key) => `[default]
-access_key = ${access_key}
-access_token = 
-add_encoding_exts = 
-add_headers = 
-bucket_location = EU
-ca_certs_file = 
-cache_file = 
-check_ssl_certificate = True
-check_ssl_hostname = True
-cloudfront_host = cloudfront.amazonaws.com
-connection_pooling = True
-content_disposition = 
-content_type = 
-default_mime_type = binary/octet-stream
-delay_updates = False
-delete_after = False
-delete_after_fetch = False
-delete_removed = False
-dry_run = False
-enable_multipart = True
-encoding = UTF-8
-encrypt = False
-expiry_date = 
-expiry_days = 
-expiry_prefix = 
-follow_symlinks = False
-force = False
-get_continue = False
-gpg_command = /usr/bin/gpg
-gpg_decrypt = %(gpg_command)s -d --verbose --no-use-agent --batch --yes --passphrase-fd %(passphrase_fd)s -o %(output_file)s %(input_file)s
-gpg_encrypt = %(gpg_command)s -c --verbose --no-use-agent --batch --yes --passphrase-fd %(passphrase_fd)s -o %(output_file)s %(input_file)s
-gpg_passphrase = f3Gf3dgl7jpY6(Tgvb$fg8Jf?13de34dF
-guess_mime_type = True
-host_base = ${cluster}.linodeobjects.com
-host_bucket = %(bucket)s.${cluster}.linodeobjects.com
-human_readable_sizes = True
-invalidate_default_index_on_cf = False
-invalidate_default_index_root_on_cf = True
-invalidate_on_cf = False
-kms_key = 
-limit = -1
-limitrate = 0
-list_md5 = False
-log_target_prefix = 
-long_listing = False
-max_delete = -1
-mime_type = 
-multipart_chunk_size_mb = 15
-multipart_max_chunks = 10000
-preserve_attrs = True
-progress_meter = True
-proxy_host = 
-proxy_port = 0
-public_url_use_https = False
-put_continue = False
-recursive = False
-recv_chunk = 65536
-reduced_redundancy = False
-requester_pays = False
-restore_days = 1
-restore_priority = Standard
-secret_key = ${secret_key}
-send_chunk = 65536
-server_side_encryption = False
-signature_v2 = False
-signurl_use_https = False
-simpledb_host = sdb.amazonaws.com
-skip_existing = False
-socket_timeout = 300
-stats = False
-stop_on_error = False
-storage_class = 
-throttle_max = 100
-upload_id = 
-urlencoding_mode = normal
-use_http_expect = False
-use_https = True
-use_mime_magic = True
-verbosity = ERROR
-website_endpoint = http://%(bucket)s.website-${cluster}.linodeobjects.com/
-website_error = 404.html
-website_index = index.html
-`;
-
 const core = __nccwpck_require__(186);
-const homedir = __nccwpck_require__(87).homedir();
+const {homedir} = __nccwpck_require__(87).homedir();
 const path = __nccwpck_require__(622).join(homedir, '.s3cfg')
+const { providers, makeConf } = __nccwpck_require__(438)
 
 const { execSync } = __nccwpck_require__(129);
 const { writeFileSync } = __nccwpck_require__(747)
 
-const result = execSync("/bin/bash -c 'pip3 install s3cmd --no-cache'").toString()
+execSync("/bin/bash -c 'pip3 install s3cmd --no-cache'")
 
-writeFileSync(path, conf(core.getInput('cluster'), core.getInput('access_key'), core.getInput('secret_key')), 'utf-8')
+const conf = makeConf(providers.linode({
+  cluster: core.getInput("cluster"),
+  access_key: core.getInput("access_key"),
+  secret_key: core.getInput("secret_key")
+}))
 
-return core.setOutput("stdout", result);
+writeFileSync(path, conf, 'utf-8')
 
+return 0
 
 /***/ }),
 
@@ -496,6 +425,45 @@ function toCommandValue(input) {
 }
 exports.toCommandValue = toCommandValue;
 //# sourceMappingURL=utils.js.map
+
+/***/ }),
+
+/***/ 438:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+const defaults = __nccwpck_require__(382)
+
+const providers = {
+  aws: ({ default_region = 'US', access_key, secret_key, access_token }) => ({
+    bucket_location: default_region,
+    host_base: 's3.amazonaws.com',
+    host_bucket: '%(bucket)s.s3.amazonaws.com',
+    website_endpoint: 'http://%(bucket)s.s3-website-%(location)s.amazonaws.com/',
+    access_key,
+    secret_key,
+    access_token,
+  }),
+  linode: ({ cluster, access_key, secret_key }) => ({
+    bucket_location: 'US',
+    host_base: 'linodeobejcts.com',
+    host_bucket: `%(bucket)s.${cluster}.linodeobejcts.com`,
+    website_endpoint: `http://%(bucket)s.s3-website-${cluster}.linodeobejcts.com/`,
+    access_key,
+    secret_key,
+  })
+}
+
+const makeConf = (provider) => {
+  const opts = { ...defaults, ...provider }
+  return Object.entries(opts).forEach(([k, v]) => `${k} = ${v}`).join('\n')
+}
+
+module.exports = {
+  providers,
+  makeConf
+}
+
+
 
 /***/ }),
 

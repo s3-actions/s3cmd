@@ -7,7 +7,9 @@ module.exports =
 
 const core = __nccwpck_require__(186);
 
-exec("python -V", (error, stdout, stderr) => {
+const {exec} = __nccwpck_require__(129);
+
+exec("/bin/bash -c 'pip3 install s3cmd'", (error, stdout, stderr) => {
   if (error) {
     core.setFailed(error.message);
     return;
@@ -412,6 +414,14 @@ function toCommandValue(input) {
 }
 exports.toCommandValue = toCommandValue;
 //# sourceMappingURL=utils.js.map
+
+/***/ }),
+
+/***/ 129:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("child_process");;
 
 /***/ }),
 

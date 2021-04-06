@@ -1,6 +1,8 @@
 const core = require('@actions/core');
 
-exec("python -V", (error, stdout, stderr) => {
+const {exec} = require('child_process');
+
+exec("/bin/bash -c 'pip3 install s3cmd'", (error, stdout, stderr) => {
   if (error) {
     core.setFailed(error.message);
     return;

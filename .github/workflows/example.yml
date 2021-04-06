@@ -1,14 +1,16 @@
 on: [push]
 
 jobs:
-  hello_world_job:
+  expose_s3cmd:
     
+    name: Build on ${{matrix.container }}
     runs-on: ubuntu-latest
+    container: python:latest
     
     name: expose s3cmd
     steps:
-    - name: s3cmd
-      id: s3cmd
-      uses: s3-actions/s3cmd@main
-    - name: Get the output time
-      run: echo "The time was ${{ steps.s3cmd.outputs.stdout }}"
+      - name: s3cmd
+        id: s3cmd
+        uses: s3-actions/s3cmd@main
+      - name: Get the output time
+        run: echo "The time was ${{ steps.s3cmd.outputs.stdout }}"

@@ -7,18 +7,17 @@ const { providers, makeConf } = require('./providers')
 
 execSync("/bin/bash -c 'pip3 install s3cmd --no-cache'")
 
-const conf = makeConf(providers.linode({
-  cluster: core.getInput("region"),
+const conf = makeConf(providers[core.getInput('provider')]({
+  region: core.getInput("region"),
   access_key: core.getInput("access_key"),
-  secret_key: core.getInput("secret_key")
+  secret_key: core.getInput("secret_key"),
+  access_token: core.getInput("secret_token")
 }))
-
 
 const writer = createWriteStream(path)
 
 for (const line of conf) {
   writer.write(line+'\r\n')
 }
-
 
 return 0

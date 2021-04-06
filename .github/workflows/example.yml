@@ -18,7 +18,7 @@ jobs:
 
       - name: Interact with object storage
         run: |
-          buck="github-action-$(< /dev/urandom tr -cd "a-g0-9" | head -c 32; echo)"
+          buck="github-action-${{ github.run_id }}"
           mkdir example
           s3cmd mb s3://$buck
           echo 'foo' >> example/bar

@@ -8,7 +8,7 @@ It is currently only tested with linode. It works with all environments though, 
 
 ### `cluster`
 
-**Not required** The cluster the buckets reside in. Default `"ap-south-1"`.
+**Not required** The cluster the buckets reside in.
 
 ### `access_key`
 
@@ -17,6 +17,11 @@ It is currently only tested with linode. It works with all environments though, 
 ### `secret_key`
 
 **Required**  The buckets secret key.
+
+### `access_token`
+
+**Not Required**  An additional access token that is used by AWS.
+
 ## Example usage
 
 ```yml

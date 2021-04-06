@@ -5,7 +5,7 @@ branding:
   color: 'green'
 
 inputs:
-  cluster:
+  region:
     description: 's3 region'
     required: true
   access_key: 
@@ -14,6 +14,9 @@ inputs:
   secret_key: 
     description: 's3 secret key'
     required: true
+  access_token: 
+    description: 's3 access token '
+    required: false
 
 runs:
   using: 'node12'

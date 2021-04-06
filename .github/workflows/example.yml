@@ -7,16 +7,16 @@ jobs:
   expose_s3cmd:
     runs-on: ubuntu-latest
     
-    name: expose s3cmd
+    name: Use S3cmd
     steps:
-      - name: set up s3cmd
+      - name: Set up S3cmd cli tool.
         uses: s3-actions/s3cmd@v0
         with:
           cluster: 'eu-central-1'
           access_key: ${{ secrets.S3_ACCESS_KEY }}
           secret_key: ${{ secrets.S3_SECRET_KEY }}
 
-      - name: run s3 action
+      - name: Interact with object storage.
         run: |
           echo 'foo' >> bar
           s3cmd put bar s3://foobarbaz

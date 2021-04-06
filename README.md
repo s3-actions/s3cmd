@@ -32,14 +32,14 @@ jobs:
     
     name: Use S3cmd
     steps:
-      - name: Set up S3cmd cli tool.
+      - name: Set up S3cmd cli tool
         uses: s3-actions/s3cmd@v0
         with:
           cluster: 'eu-central-1'
           access_key: ${{ secrets.S3_ACCESS_KEY }}
           secret_key: ${{ secrets.S3_SECRET_KEY }}
 
-      - name: Interact with object storage.
+      - name: Interact with object storage
         run: |
           echo 'foo' >> bar
           s3cmd put bar s3://foobarbaz

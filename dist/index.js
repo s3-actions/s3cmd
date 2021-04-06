@@ -443,7 +443,7 @@ const providers = {
     secret_key,
     access_token,
   }),
-  linode: ({ cluster, access_key, secret_key }) => ({
+  linode: ({ cluster = 'eu-central-1', access_key = '', secret_key = '' }) => ({
     bucket_location: 'US',
     host_base: 'linodeobejcts.com',
     host_bucket: `%(bucket)s.${cluster}.linodeobejcts.com`,
@@ -455,7 +455,7 @@ const providers = {
 
 const makeConf = (provider) => {
   const opts = { ...defaults, ...provider }
-  return Object.entries(opts).forEach(([k, v]) => `${k} = ${v}`).join('\n')
+  return Object.entries(opts).map(([k, v]) => `${k} = ${v}`)
 }
 
 module.exports = {

@@ -100,7 +100,6 @@ const { writeFileSync } = __nccwpck_require__(747)
 
 const result = execSync("/bin/bash -c 'pip3 install s3cmd --no-cache'").toString()
 
-writeFileSync('/github/home/.s3cfg', conf(core.getInput('cluster'), core.getInput('access_key'), core.getInput('secret_key')), 'utf-8')
 
 return core.setOutput("stdout", result);
 

@@ -19,9 +19,13 @@ It is currently only tested with linode. It wokrs with all environemts though, i
 **Required**  The buckets secret key.
 ## Example usage
 
-on: [push]
 
 ```yml
+on:
+  push:
+    branches:
+      - main
+
 jobs:
   expose_s3cmd:
     runs-on: ubuntu-latest

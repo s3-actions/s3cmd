@@ -5,7 +5,7 @@ const { execSync } = require('child_process');
 const { createWriteStream } = require('fs')
 const { providers, makeConf } = require('./providers')
 
-execSsync("/bin/bash -c 'pip3 install s3cmd --no-cache'")
+execSync("/bin/bash -c 'pip3 install s3cmd --no-cache'")
 
 const conf = makeConf(providers[core.getInput('provider')]({
   region: core.getInput("region"),
@@ -13,7 +13,7 @@ const conf = makeConf(providers[core.getInput('provider')]({
   secret_key: core.getInput("secret_key"),
 }))
 
-const writer = createWriteStream(path)
+ddf writer = createWriteStream(path)
 
 for (const line of conf) {
   writer.write(line+'\r\n')

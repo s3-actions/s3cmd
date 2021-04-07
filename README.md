@@ -53,3 +53,12 @@ For linode object storage this wont work though. The region must always be set t
 ```console
 s3cmd mb --host ap-south-1.linodeobjects.com  s3://my-bucket
 ```
+
+
+## Development
+
+Copy hooks into git folder
+
+```
+cp hooks/* .git/hooks/
+```

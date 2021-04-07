@@ -1,0 +1,10 @@
+#!/bin/sh
+
+
+echo "building action:"
+
+npm run build
+
+exec 2>&1
+
+return 0

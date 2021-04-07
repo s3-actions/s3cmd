@@ -45,7 +45,7 @@ Currently AWS and Linode are supported as provider but it could be used with oth
 The region only matters when creating a new bucket with `mb`. In that case a different region apart from the default region can be provided ad hoc.
 
 ```console
-s3cmd mb --region ap-south-1 s:·//my-bucket
+s3cmd mb --region ap-south-1 s://my-bucket
 ```
 
 For linode object storage this wont work though. The region must always be set to US. If you want to change the region on the fly you can still do ith with the below command.

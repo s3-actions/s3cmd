@@ -26,7 +26,6 @@ const conf = makeConf(providers[core.getInput('provider')]({
   region: core.getInput("region"),
   access_key: core.getInput("access_key"),
   secret_key: core.getInput("secret_key"),
-  access_token: core.getInput("secret_token")
 }))
 
 const writer = createWriteStream(path)
@@ -438,14 +437,13 @@ exports.toCommandValue = toCommandValue;
 const defaults = __nccwpck_require__(382)
 
 const providers = {
-  aws: ({ region = 'US', access_key, secret_key, access_token }) => ({
+  aws: ({ region = 'US', access_key = '', secret_key = ''}) => ({
     bucket_location: region,
     host_base: 's3.amazonaws.com',
     host_bucket: '%(bucket)s.s3.amazonaws.com',
     website_endpoint: 'http://%(bucket)s.s3-website-%(location)s.amazonaws.com/',
     access_key,
     secret_key,
-    access_token,
   }),
   linode: ({ region = 'eu-central-1', access_key = '', secret_key = '' }) => ({
     bucket_location: 'US',

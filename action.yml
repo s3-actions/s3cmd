@@ -3,7 +3,6 @@ description: 'Use S3cmd cli to interact with s3 object storage.'
 branding:
   icon: 'award'  
   color: 'green'
-
 inputs:
   provider:
     description: 'config provider to make it easier to use the cli as action'
@@ -16,9 +15,6 @@ inputs:
   secret_key: 
     description: 's3 secret key'
     required: true
-  access_token: 
-    description: 's3 access token '
-
 runs:
   using: 'node12'
   main: 'dist/index.js'

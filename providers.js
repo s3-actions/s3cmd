@@ -1,14 +1,13 @@
 const defaults = require('./defaults.json')
 
 const providers = {
-  aws: ({ region = 'US', access_key, secret_key, access_token }) => ({
+  aws: ({ region = 'US', access_key = '', secret_key = ''}) => ({
     bucket_location: region,
     host_base: 's3.amazonaws.com',
     host_bucket: '%(bucket)s.s3.amazonaws.com',
     website_endpoint: 'http://%(bucket)s.s3-website-%(location)s.amazonaws.com/',
     access_key,
     secret_key,
-    access_token,
   }),
   linode: ({ region = 'eu-central-1', access_key = '', secret_key = '' }) => ({
     bucket_location: 'US',

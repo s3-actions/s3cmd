@@ -11,7 +11,6 @@ const conf = makeConf(providers[core.getInput('provider')]({
   region: core.getInput("region"),
   access_key: core.getInput("access_key"),
   secret_key: core.getInput("secret_key"),
-  access_token: core.getInput("secret_token")
 }))
 
 const writer = createWriteStream(path)

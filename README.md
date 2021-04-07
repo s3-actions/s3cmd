@@ -25,29 +25,43 @@ It is currently only tested with linode. It works with all environments though, 
 ## Example usage
 
 ```yml
-on:
-  push:
-    branches:
-      - main
+- name: Set up S3cmd cli tool
+  uses: s3-actions/s3cmd@main
+  with:
+    provider: aws # default is linode
+    region: 'eu-central-1'
+    access_key: ${{ secrets.S3_ACCESS_KEY }}
+    secret_key: ${{ secrets.S3_SECRET_KEY }}
 
-jobs:
-  use_s3cmd:
-    runs-on: ubuntu-latest
-    
-    name: Use S3cmd
-    steps:
-      - name: Set up S3cmd cli tool
-        uses: s3-actions/s3cmd@v0.3
-        with:
-          cluster: 'eu-central-1'
-          access_key: ${{ secrets.S3_ACCESS_KEY }}
-          secret_key: ${{ secrets.S3_SECRET_KEY }}
-
-      - name: Interact with object storage
-        run: |
-          echo 'foo' >> bar
-          s3cmd put bar s3://foobarbaz
+- name: Interact with object storage
+  run: |
+    buck="github-action-${{ github.run_id }}"
+    mkdir example
+    s3cmd mb s3://$buck
+    echo 'foo' >> example/bar
+    s3cmd put example/bar s3://foobarbaz
+    mkdir -p example/baz/bar
+    echo 'fizz' >> example/baz/bar/faz
+    sleep 5
+    s3cmd sync --recursive --acl-public example s3://$buck
+    sleep 5
+    s3cmd rm -r --force s3://$buck
+    sleep 5
+    s3cmd rb s3://$buck
 
 ```
 
 
+### Note
+
+The region only matters when creating a new bucket with mb. In that case a different region that the one passed to the action can be provided.
+
+```
+s3cmd mb --region ap-south-1 s:·//my-bucket
+```
+
+For linode object storage this wont work though. The region must always be set to US. If you want to change the region on the fly you can still do ith with
+
+```
+s3cmd mb --host ap-south-1.linodeobjects.com  s3://my-bucket
+```

@@ -6,9 +6,9 @@ It is currently only tested with linode. It works with all environments though, 
 
 ## Inputs
 
-### `cluster`
+### `region`
 
-**Not required** The cluster the buckets reside in.
+**Not required** The default region to use.
 
 ### `access_key`
 
@@ -18,15 +18,11 @@ It is currently only tested with linode. It works with all environments though, 
 
 **Required**  The buckets secret key.
 
-### `access_token`
-
-**Not Required**  An additional access token that is used by AWS.
-
 ## Example usage
 
 ```yml
 - name: Set up S3cmd cli tool
-  uses: s3-actions/s3cmd@main
+  uses: s3-actions/s3cmd@v1
   with:
     provider: aws # default is linode
     region: 'eu-central-1'
@@ -54,14 +50,14 @@ It is currently only tested with linode. It works with all environments though, 
 
 ### Note
 
-The region only matters when creating a new bucket with mb. In that case a different region that the one passed to the action can be provided.
+The region only matters when creating a new bucket with `mb`. In that case a different region apart from the default region can be provided ad hoc.
 
-```
+```console
 s3cmd mb --region ap-south-1 s:·//my-bucket
 ```
 
-For linode object storage this wont work though. The region must always be set to US. If you want to change the region on the fly you can still do ith with
+For linode object storage this wont work though. The region must always be set to US. If you want to change the region on the fly you can still do ith with the below command.
 
-```
+```console
 s3cmd mb --host ap-south-1.linodeobjects.com  s3://my-bucket
 ```

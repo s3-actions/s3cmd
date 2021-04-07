@@ -26,7 +26,7 @@ Currently AWS and Linode are supported as provider but it could be used with oth
 
 ```yml
 - name: Set up S3cmd cli tool
-  uses: s3-actions/s3cmd@v1
+  uses: s3-actions/s3cmd@v1.1
   with:
     provider: aws # default is linode
     region: 'eu-central-1'

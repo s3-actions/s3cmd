@@ -1,0 +1,34 @@
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  use_s3cmd:
+    runs-on: ubuntu-latest
+    
+    name: Use S3cmd for AWS
+    steps:
+      - name: Set up S3cmd cli tool
+        uses: s3-actions/s3cmd@main
+        with:
+          provider: aws
+          region: 'eu-central-1'
+          access_key: ${{ secrets.S3_ACCESS_KEY_AWS }}
+          secret_key: ${{ secrets.S3_SECRET_KEY_AWS }}
+
+      - name: Interact with object storage
+        run: |
+          buck="github-action-${{ github.run_id }}"
+          mkdir example
+          s3cmd mb s3://$buck
+          echo 'foo' >> example/bar
+          s3cmd put example/bar s3://$buck
+          mkdir -p example/baz/bar
+          echo 'fizz' >> example/baz/bar/faz
+          sleep 5
+          s3cmd sync --recursive --acl-public example s3://$buck
+          sleep 5
+          s3cmd rm -r --force s3://$buck
+          sleep 5
+          s3cmd rb s3://$buck

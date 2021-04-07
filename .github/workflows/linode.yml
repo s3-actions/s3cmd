@@ -7,15 +7,14 @@ jobs:
   use_s3cmd:
     runs-on: ubuntu-latest
     
-    name: Use S3cmd
+    name: Use S3cmd for Linode
     steps:
       - name: Set up S3cmd cli tool
         uses: s3-actions/s3cmd@main
         with:
-          provider: aws
           region: 'eu-central-1'
-          access_key: ${{ secrets.S3_ACCESS_KEY }}
-          secret_key: ${{ secrets.S3_SECRET_KEY }}
+          access_key: ${{ secrets.S3_ACCESS_KEY_LINODE }}
+          secret_key: ${{ secrets.S3_SECRET_KEY_LINODE }}
 
       - name: Interact with object storage
         run: |

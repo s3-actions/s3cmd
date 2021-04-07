@@ -13,7 +13,7 @@ const conf = makeConf(providers[core.getInput('provider')]({
   secret_key: core.getInput("secret_key"),
 }))
 
-ddf writer = createWriteStream(path)
+const writer = createWriteStream(path)
 
 for (const line of conf) {
   writer.write(line+'\r\n')

@@ -1,0 +1,21 @@
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  use_s3cmd:
+    runs-on: ubuntu-latest
+    
+    name: Validate Project
+    steps:
+      - name: Build dist
+      - run: |
+          mv dist/index.js old
+          npm run build
+          if cmp --silent -- old dist/index.js; then
+            exit 0
+          else
+            exit 1
+          fi
+      

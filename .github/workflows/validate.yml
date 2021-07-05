@@ -9,8 +9,8 @@ jobs:
     
     name: Validate Project
     steps:
-      - name: Build dist
-      - run: |
+      - name: Build and compare dist
+        run: |
           mv dist/index.js old
           npm run build
           if cmp --silent -- old dist/index.js; then

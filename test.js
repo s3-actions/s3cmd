@@ -7,7 +7,7 @@ const conf = makeConf(providers.linode({
   secret_key: 'more secret'
 }))
 
-const writer = createWriteStream('test')
+const writer = createWriteStream('assets/test-result')
 
 for (const line of conf) {
   writer.write(line+'\r\n')

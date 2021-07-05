@@ -21,10 +21,6 @@ jobs:
           s3cmd mb s3://$buck
           echo 'foo' >> example/bar
           s3cmd put example/bar s3://$buck
-          mkdir -p example/baz/bar
-          echo 'fizz' >> example/baz/bar/faz
-          sleep 10
-          s3cmd sync --recursive --acl-public example s3://$buck
           sleep 10
           s3cmd rm -r --force s3://$buck
           sleep 10

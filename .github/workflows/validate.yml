@@ -5,10 +5,9 @@ jobs:
     runs-on: ubuntu-latest
     name: Validate Project
     steps:
-      - name: check if index.js is in diff
-        run: git diff
-      - name: Build and compare dist
-        run: |
+      - uses: actions/checkout@v2
+      - run: |
+          git diff
           mv dist/index.js old
           npm run build
           if cmp --silent -- old dist/index.js; then

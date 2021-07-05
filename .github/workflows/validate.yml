@@ -1,14 +1,12 @@
-on:
-  push:
-    branches:
-      - main
+on: push
 
 jobs:
   use_s3cmd:
     runs-on: ubuntu-latest
-    
     name: Validate Project
     steps:
+      - name: check if index.js is in diff
+        run: git diff
       - name: Build and compare dist
         run: |
           mv dist/index.js old

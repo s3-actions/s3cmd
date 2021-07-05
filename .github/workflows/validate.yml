@@ -8,6 +8,7 @@ jobs:
       - uses: actions/checkout@v2
       - run: |
           git diff
+          npm i
           mv dist/index.js old
           npm run build
           if cmp --silent -- old dist/index.js; then

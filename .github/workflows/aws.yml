@@ -1,7 +1,4 @@
-on:
-  push:
-    branches:
-      - main
+on: push
 
 jobs:
   use_s3cmd:

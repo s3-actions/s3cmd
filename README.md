@@ -1,6 +1,6 @@
 # S3cmd
 
-This action is a simple wrapper for [S3cmd](https://github.com/s3tools/s3cmd). 
+This action is a simple wrapper for [S3cmd](https://github.com/s3tools/s3cmd).
 
 Currently AWS and Linode are supported as provider but it could be used with other providers too when using additional flags.
 
@@ -35,17 +35,17 @@ Currently AWS and Linode are supported as provider but it could be used with oth
 
 - name: Interact with object storage
   run: |
-    s3cmd sync --recursive --acl-public dist s3://awesome.blog
+    s3cmd sync --recursive --acl-public dist s3://awesome.blog/
+    s3cmd put dist/style.css --mime-type 'text/css' --acl-public s3://awesome.blog/style.css
     s3cmd info s3://awesome.blog
 ```
-
 
 ### Note
 
 The region only matters when creating a new bucket with `mb`. In that case a different region apart from the default region can be provided ad hoc.
 
 ```console
-s3cmd mb --region ap-south-1 s://my-bucket
+s3cmd mb --region ap-south-1 s3://my-bucket
 ```
 
 For linode object storage this wont work though. The region must always be set to US. If you want to change the region on the fly you can still do ith with the below command.
@@ -54,11 +54,10 @@ For linode object storage this wont work though. The region must always be set t
 s3cmd mb --host ap-south-1.linodeobjects.com  s3://my-bucket
 ```
 
-
 ## Development
 
 Copy hooks into git folder
 
-```
+```shell
 cp hooks/* .git/hooks/
 ```

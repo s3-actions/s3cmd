@@ -9,6 +9,14 @@ const providers = {
     access_key,
     secret_key,
   }),
+  digitalocean: ({ region = 'nyc3', access_key = '', secret_key = ''}) => ({
+    bucket_location: region,
+    host_base: `${region}.digitaloceanspaces.com`,
+    host_bucket: `%(bucket)s.${region}.digitaloceanspaces.com`,
+    website_endpoint: `http://%(bucket)s.website-${region}.digitaloceanspaces.com`,
+    access_key,
+    secret_key,
+  }),
   linode: ({ region = 'eu-central-1', access_key = '', secret_key = '' }) => ({
     bucket_location: 'US',
     host_base: `${region}.linodeobjects.com`,

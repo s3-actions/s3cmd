@@ -1,20 +1,22 @@
-name: 'Use S3cmd'
-description: 'Use S3cmd cli to interact with s3 object storage.'
+name: "Use S3cmd"
+description: "Use S3cmd cli to interact with s3 object storage"
 branding:
-  icon: 'award'  
-  color: 'green'
+  icon: "award"
+  color: "green"
 inputs:
   provider:
-    description: 'config provider to make it easier to use the cli as action'
-    default: 'linode'
+    description: "config provider to make it easier to use the cli as action"
+    default: "linode"
+    required: false
   region:
-    description: 's3 region'
-  access_key: 
-    description: 's3 access key'
+    description: "s3 region (default region depends on the provider)"
+    required: false
+  access_key:
+    description: "s3 access key"
     required: true
-  secret_key: 
-    description: 's3 secret key'
+  secret_key:
+    description: "s3 secret key"
     required: true
 runs:
-  using: 'node12'
-  main: 'dist/index.js'
+  using: "node12"
+  main: "dist/index.js"

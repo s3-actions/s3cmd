@@ -2,13 +2,19 @@
 
 This action is a simple wrapper for [S3cmd](https://github.com/s3tools/s3cmd).
 
-Currently AWS and Linode are supported as provider but it could be used with other providers too when using additional flags.
+## Supported Providers
+
+Currently the below providers are supported, but it could be used with other providers too when using additional flags.
+
+- AWS
+- Linode
+- DigitalOcean
 
 ## Inputs
 
 ### `provider`
 
-**Not Required** The s3 provider to use. Defaults to Linode. Currently AWS and Linode possible.
+**Not Required** The s3 provider to use. Defaults to Linode. AWS, Linode, DigitalOcean are supported.
 
 ### `secret_key`
 
@@ -20,7 +26,7 @@ Currently AWS and Linode are supported as provider but it could be used with oth
 
 ### `region`
 
-**Not Required** The default region to use.
+**Not Required** The default region to use. The default depends on the provider.
 
 ## Example usage
 
@@ -56,8 +62,8 @@ s3cmd mb --host ap-south-1.linodeobjects.com  s3://my-bucket
 
 ## Development
 
-Copy hooks into git folder
+Copy the hooks into the git folder:
 
 ```shell
-cp hooks/* .git/hooks/
+cp assets/hooks/* .git/hooks/
 ```

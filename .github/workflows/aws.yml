@@ -1,16 +1,17 @@
-on: push
+on:
+  workflow_dispatch:
 
 jobs:
   use_s3cmd:
     runs-on: ubuntu-latest
-    
+
     name: Use S3cmd for AWS
     steps:
       - name: Set up S3cmd cli tool
         uses: s3-actions/s3cmd@main
         with:
           provider: aws
-          region: 'eu-central-1'
+          region: eu-central-1
           access_key: ${{ secrets.S3_ACCESS_KEY_AWS }}
           secret_key: ${{ secrets.S3_SECRET_KEY_AWS }}
 

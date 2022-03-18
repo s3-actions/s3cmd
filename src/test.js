@@ -2,7 +2,7 @@ const { createWriteStream } = require('fs')
 const { providers, makeConf } = require('./providers')
 
 
-const linodeWriter = createWriteStream('assets/test-result-linode')
+const linodeWriter = createWriteStream('assets/test-results/linode')
 
 const linodeConf = makeConf(providers.linode({
   cluster: "eu-central-1",
@@ -22,7 +22,7 @@ const digitaloceanConf = makeConf(providers.digitalocean({
   secret_key: 'more secret'
 }))
 
-const digitaloceanWriter = createWriteStream('assets/test-result-digitalocean')
+const digitaloceanWriter = createWriteStream('assets/test-results/digitalocean')
 
 for (const line of digitaloceanConf) {
   digitaloceanWriter.write(line + '\r\n')

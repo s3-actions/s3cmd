@@ -1,0 +1,34 @@
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  use_s3cmd:
+    runs-on: ubuntu-latest
+    
+    name: Use S3cmd for digitalocean
+    steps:
+      - name: Set up S3cmd cli tool
+        uses: s3-actions/s3cmd@main
+        with:
+          provider: digitalocean
+          region: 'NYC3'
+          access_key: ${{ secrets.SPACES_ACCESS_KEY_ID }}
+          secret_key: ${{ secrets.SPACES_SECRET_ACCESS_KEY }}
+
+      - name: Interact with object storage
+        run: |
+          buck="github-action-${{ github.run_id }}"
+          mkdir example
+          s3cmd mb s3://$buck
+          echo 'foo' >> example/bar
+          s3cmd put example/bar s3://$buck
+          mkdir -p example/baz/bar
+          echo 'fizz' >> example/baz/bar/faz
+          sleep 10
+          s3cmd sync --recursive --acl-public example s3://$buck
+          sleep 10
+          s3cmd rm -r --force s3://$buck
+          sleep 10
+          s3cmd rb s3://$buck

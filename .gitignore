@@ -1,2 +1,4 @@
 node_modules
-.vscode
+.s3cfg
+/assets/test-results/*
+!/assets/test-results/.gitkeep

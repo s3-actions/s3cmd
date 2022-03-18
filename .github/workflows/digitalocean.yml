@@ -1,19 +1,17 @@
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   use_s3cmd:
     runs-on: ubuntu-latest
-    
+
     name: Use S3cmd for digitalocean
     steps:
       - name: Set up S3cmd cli tool
         uses: s3-actions/s3cmd@main
         with:
           provider: digitalocean
-          region: 'NYC3'
+          region: NYC3
           access_key: ${{ secrets.SPACES_ACCESS_KEY_ID }}
           secret_key: ${{ secrets.SPACES_SECRET_ACCESS_KEY }}
 

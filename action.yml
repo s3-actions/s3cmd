@@ -6,7 +6,7 @@ branding:
 inputs:
   provider:
     description: 'config provider to make it easier to use the cli as action'
-    default: 'digitalocean'
+    default: 'linode'
   region:
     description: 's3 region'
   access_key: 

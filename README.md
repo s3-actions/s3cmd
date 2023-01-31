@@ -9,12 +9,13 @@ Currently the below providers are supported, but it could be used with other pro
 - AWS
 - Linode
 - DigitalOcean
+- Scaleway
 
 ## Inputs
 
 ### `provider`
 
-**Not Required** The s3 provider to use. Defaults to Linode. AWS, Linode, DigitalOcean are supported.
+**Not Required** The s3 provider to use. Defaults to Linode. AWS, Linode, DigitalOcean, Scaleway are supported.
 
 ### `secret_key`
 

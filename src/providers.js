@@ -24,6 +24,14 @@ const providers = {
     website_endpoint: `http://%(bucket)s.website-${region}.linodeobjects.com/`,
     access_key,
     secret_key,
+  }),
+  scaleway: ({ region = 'fr-par', access_key = '', secret_key = '' }) => ({
+    bucket_location: region,
+    host_base: `s3.${region}.scw.cloud`,
+    host_bucket: `%(bucket)s.s3.${region}.scw.cloud`,
+    website_endpoint: `https://%(bucket)s.s3-website.${region}.scw.cloud/`,
+    access_key,
+    secret_key,
   })
 }
 

@@ -2,3 +2,4 @@ node_modules
 .s3cfg
 /assets/test-results/*
 !/assets/test-results/.gitkeep
+.idea

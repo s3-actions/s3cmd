@@ -10,12 +10,13 @@ Currently the below providers are supported, but it could be used with other pro
 - Linode
 - DigitalOcean
 - Scaleway
+- Cloudflare
 
 ## Inputs
 
 ### `provider`
 
-**Not Required** The s3 provider to use. Defaults to Linode. AWS, Linode, DigitalOcean, Scaleway are supported.
+**Not Required** The s3 provider to use. Defaults to Linode. AWS, Linode, DigitalOcean, Scaleway, Cloudflare are supported.
 
 ### `secret_key`
 
@@ -28,6 +29,10 @@ Currently the below providers are supported, but it could be used with other pro
 ### `region`
 
 **Not Required** The default region to use. The default depends on the provider.
+
+### `account_id`
+
+**Not Required** Cloudflare account ID. Only required when using Cloudflare R2.
 
 ## Example usage
 

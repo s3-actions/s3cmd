@@ -409,6 +409,7 @@ execSync("/bin/bash -c 'pip3 install s3cmd --no-cache'")
 
 const conf = makeConf(providers[core.getInput('provider')]({
   region: core.getInput("region"),
+  account_id: core.getInput("account_id"),
   access_key: core.getInput("access_key"),
   secret_key: core.getInput("secret_key"),
 }))
@@ -459,6 +460,14 @@ const providers = {
     host_base: `s3.${region}.scw.cloud`,
     host_bucket: `%(bucket)s.s3.${region}.scw.cloud`,
     website_endpoint: `https://%(bucket)s.s3-website.${region}.scw.cloud/`,
+    access_key,
+    secret_key,
+  }),
+  cloudflare: ({ account_id = '', region='auto', access_key = '', secret_key = '' }) => ({
+    bucket_location: region,
+    host_base: `${account_id}.r2.cloudflarestorage.com`,
+    host_bucket: '',
+    website_endpoint: '',
     access_key,
     secret_key,
   })

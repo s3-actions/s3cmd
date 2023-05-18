@@ -27,3 +27,17 @@ const digitaloceanWriter = createWriteStream('assets/test-results/digitalocean')
 for (const line of digitaloceanConf) {
   digitaloceanWriter.write(line + '\r\n')
 }
+
+const cloudflareConf = makeConf(
+  providers.cloudflare({
+    account_id: "123abc",
+    access_key: "top-secret",
+    secret_key: "more secret",
+  })
+);
+
+const cloudflareWriter = createWriteStream("assets/test-results/cloudflare");
+
+for (const line of cloudflareConf) {
+  cloudflareWriter.write(line + "\r\n");
+}

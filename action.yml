@@ -11,6 +11,9 @@ inputs:
   region:
     description: "s3 region (default region depends on the provider)"
     required: false
+  account_id:
+    description: "account id (only used with Cloudflare R2)"
+    required: false
   access_key:
     description: "s3 access key"
     required: true

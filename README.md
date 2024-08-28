@@ -39,7 +39,7 @@ Currently the below providers are supported, but it could be used with other pro
 
 ```yml
 - name: Set up S3cmd cli tool
-  uses: s3-actions/s3cmd@v1.6.1
+  uses: s3-actions/s3cmd@v1.7.0
   with:
     provider: aws # default is linode
     region: 'eu-central-1'

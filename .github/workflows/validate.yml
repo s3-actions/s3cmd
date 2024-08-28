@@ -1,5 +1,16 @@
-on: push
+name: validate
 
+on:
+  workflow_dispatch: {}
+  push:
+    branches: ["main"]
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
+  
 jobs:
   use_s3cmd:
     runs-on: ubuntu-latest

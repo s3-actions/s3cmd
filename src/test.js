@@ -41,3 +41,16 @@ const cloudflareWriter = createWriteStream("assets/test-results/cloudflare");
 for (const line of cloudflareConf) {
   cloudflareWriter.write(line + "\r\n");
 }
+
+const vultrWriter = createWriteStream('assets/test-results/vultr')
+
+const vultrConf = makeConf(providers.vultr({
+  cluster: "ewr1",
+  access_key: 'top-secret',
+  secret_key: 'more secret'
+}))
+
+
+for (const line of vultrConf) {
+  vultrWriter.write(line + '\r\n')
+}

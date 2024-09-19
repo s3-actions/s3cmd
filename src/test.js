@@ -54,3 +54,14 @@ const vultrConf = makeConf(providers.vultr({
 for (const line of vultrConf) {
   vultrWriter.write(line + '\r\n')
 }
+
+
+const clevercloudWriter = createWriteStream('assets/test-results/clevercloud')
+const clevercloudConf = makeConf(providers.clevercloud({
+  access_key: 'top-secret',
+  secret_key: 'more secret'
+}))
+
+for (const line of clevercloudConf) {
+  clevercloudWriter.write(line + '\r\n')
+}

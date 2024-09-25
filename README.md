@@ -12,12 +12,13 @@ Currently the below providers are supported, but it could be used with other pro
 - Scaleway
 - Cloudflare
 - Vultr
+- CleverCloud
 
 ## Inputs
 
 ### `provider`
 
-**Not Required** The s3 provider to use. Defaults to Linode. AWS, Linode, DigitalOcean, Scaleway, Cloudflare, Vultr are supported.
+**Not Required** The s3 provider to use. Defaults to Linode. AWS, Linode, DigitalOcean, Scaleway, Cloudflare, Vultr, CleverCloud are supported.
 
 ### `secret_key`
 

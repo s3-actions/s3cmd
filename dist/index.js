@@ -24969,7 +24969,15 @@ const providers = {
     website_endpoint: '',
     access_key,
     secret_key,
-  })
+  }),
+  clevercloud: ({ region = 'US', access_key = '', secret_key = '' }) => ({
+    bucket_location: region,
+    host_base: `cellar-c2.services.clever-cloud.com`,
+    host_bucket: `%(bucket)s.cellar-c2.services.clever-cloud.com`,
+    website_endpoint: '',
+    access_key,
+    secret_key,
+  }),
 }
 
 const makeConf = (provider) => {

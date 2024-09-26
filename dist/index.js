@@ -24922,7 +24922,7 @@ exports["default"] = _default;
 const defaults = __nccwpck_require__(724)
 
 const providers = {
-  aws: ({ region = 'US', access_key = '', secret_key = ''}) => ({
+  aws: ({ region = 'US', access_key = '', secret_key = '' }) => ({
     bucket_location: region,
     host_base: 's3.amazonaws.com',
     host_bucket: '%(bucket)s.s3.amazonaws.com',
@@ -24930,7 +24930,7 @@ const providers = {
     access_key,
     secret_key,
   }),
-  digitalocean: ({ region = 'nyc3', access_key = '', secret_key = ''}) => ({
+  digitalocean: ({ region = 'nyc3', access_key = '', secret_key = '' }) => ({
     bucket_location: region,
     host_base: `${region}.digitaloceanspaces.com`,
     host_bucket: `%(bucket)s.${region}.digitaloceanspaces.com`,
@@ -24954,7 +24954,7 @@ const providers = {
     access_key,
     secret_key,
   }),
-  cloudflare: ({ account_id = '', region='auto', access_key = '', secret_key = '' }) => ({
+  cloudflare: ({ account_id = '', region = 'auto', access_key = '', secret_key = '' }) => ({
     bucket_location: region,
     host_base: `${account_id}.r2.cloudflarestorage.com`,
     host_bucket: '',
@@ -24962,7 +24962,7 @@ const providers = {
     access_key,
     secret_key,
   }),
-  vultr: ({ region = 'ewr1', access_key = '', secret_key = ''}) => ({
+  vultr: ({ region = 'ewr1', access_key = '', secret_key = '' }) => ({
     bucket_location: region,
     host_base: `${region}.vultrobjects.com`,
     host_bucket: `%(bucket)s.${region}.vultrobjects.com`,
@@ -24978,6 +24978,14 @@ const providers = {
     access_key,
     secret_key,
   }),
+  hcloud: ({ region = 'fsn1', access_key = '', secret_key = '' }) => ({
+    bucket_location: region,
+    host_base: `fsn1.your-objectstorage.com`,
+    host_bucket: `%(bucket)s.fsn1.your-objectstorage.com`,
+    website_endpoint: '',
+    access_key,
+    secret_key,
+  })
 }
 
 const makeConf = (provider) => {

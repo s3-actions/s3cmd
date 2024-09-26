@@ -65,3 +65,13 @@ const clevercloudConf = makeConf(providers.clevercloud({
 for (const line of clevercloudConf) {
   clevercloudWriter.write(line + '\r\n')
 }
+
+const hcloudWriter = createWriteStream('assets/test-results/hcloud')
+const hcloudConf = makeConf(providers.hcloud({
+  access_key: 'top-secret',
+  secret_key: 'more secret'
+}))
+
+for (const line of hcloudConf) {
+  hcloudWriter.write(line + '\r\n')
+}

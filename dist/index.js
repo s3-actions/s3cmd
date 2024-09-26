@@ -24978,6 +24978,14 @@ const providers = {
     access_key,
     secret_key,
   }),
+  hcloud: ({ region = 'fsn1', access_key = '', secret_key = '' }) => ({
+    bucket_location: region,
+    host_base: `fsn1.your-objectstorage.com`,
+    host_bucket: `%(bucket)s.fsn1.your-objectstorage.com`,
+    website_endpoint: '',
+    access_key,
+    secret_key,
+  }),
 }
 
 const makeConf = (provider) => {

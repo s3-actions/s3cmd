@@ -5,7 +5,11 @@ const { execSync } = require('child_process');
 const { createWriteStream } = require('fs')
 const { providers, makeConf } = require('./providers')
 
-execSync("/bin/bash -c 'pip3 install s3cmd --no-cache'")
+try {
+  execSync("/bin/bash -c 'pip3 install s3cmd --no-cache --break-system-packages'")
+} catch {
+  execSync("/bin/bash -c 'pip3 install s3cmd --no-cache'")
+}
 
 const conf = makeConf(providers[core.getInput('provider')]({
   region: core.getInput("region"),

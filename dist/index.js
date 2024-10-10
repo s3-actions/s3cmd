@@ -26907,7 +26907,11 @@ const { execSync } = __nccwpck_require__(2081);
 const { createWriteStream } = __nccwpck_require__(7147)
 const { providers, makeConf } = __nccwpck_require__(8842)
 
-execSync("/bin/bash -c 'pip3 install s3cmd --no-cache'")
+try {
+  execSync("/bin/bash -c 'pip3 install s3cmd --no-cache --break-system-packages'")
+} catch {
+  execSync("/bin/bash -c 'pip3 install s3cmd --no-cache'")
+}
 
 const conf = makeConf(providers[core.getInput('provider')]({
   region: core.getInput("region"),

@@ -75,3 +75,17 @@ const hcloudConf = makeConf(providers.hcloud({
 for (const line of hcloudConf) {
   hcloudWriter.write(line + '\r\n')
 }
+
+
+const synologyc2Writer = createWriteStream('assets/test-results/synologyc2')
+
+const synologyc2Conf = makeConf(providers.synologyc2({
+  cluster: "us-001",
+  access_key: 'top-secret',
+  secret_key: 'more secret'
+}))
+
+
+for (const line of synologyc2Conf) {
+  synologyc2Writer.write(line + '\r\n')
+}

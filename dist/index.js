@@ -24985,6 +24985,14 @@ const providers = {
     website_endpoint: '',
     access_key,
     secret_key,
+  }),
+  synologyc2: ({ region = 'us-001', access_key = '', secret_key = '' }) => ({
+    bucket_location: region,
+    host_base: `${region}.s3.synologyc2.net`,
+    host_bucket: ``,
+    website_endpoint: '',
+    access_key,
+    secret_key,
   })
 }
 

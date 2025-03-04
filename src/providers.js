@@ -80,7 +80,15 @@ const providers = {
     website_endpoint: '',
     access_key,
     secret_key,
-  })
+  }),
+  yandex: ({ region = 'ru-central1', access_key = '', secret_key = '' }) => ({
+    bucket_location: region,
+    host_base: `storage.yandexcloud.net`,
+    host_bucket: `%(bucket)s.storage.yandexcloud.net`,
+    website_endpoint: '',
+    access_key,
+    secret_key,
+  }),
 }
 
 const makeConf = (provider) => {

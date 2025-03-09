@@ -89,3 +89,13 @@ const synologyc2Conf = makeConf(providers.synologyc2({
 for (const line of synologyc2Conf) {
   synologyc2Writer.write(line + '\r\n')
 }
+
+const wasabiWriter = createWriteStream('assets/test-results/wasabi')
+const wasabiConf = makeConf(providers.wasabi({
+  access_key: 'top-secret',
+  secret_key: 'more secret'
+}))
+
+for (const line of wasabiConf) {
+  wasabiWriter.write(line + '\r\n')
+}

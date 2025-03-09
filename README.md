@@ -15,12 +15,13 @@ Currently the below providers are supported, but it could be used with other pro
 - CleverCloud
 - Hetzner Cloud
 - Synology C2
+- Wasabi
 
 ## Inputs
 
 ### `provider`
 
-**Not Required** The s3 provider to use. Defaults to Linode. AWS, Linode, DigitalOcean, Scaleway, Cloudflare, Vultr, CleverCloud, Hetzner Cloud, Synology C2 are supported.
+**Not Required** The s3 provider to use. Defaults to Linode. AWS, Linode, DigitalOcean, Scaleway, Cloudflare, Vultr, CleverCloud, Hetzner Cloud, Synology C2, Wasabi are supported.
 
 ### `secret_key`
 

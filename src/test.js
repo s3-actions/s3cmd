@@ -75,3 +75,13 @@ const hcloudConf = makeConf(providers.hcloud({
 for (const line of hcloudConf) {
   hcloudWriter.write(line + '\r\n')
 }
+
+const wasabiWriter = createWriteStream('assets/test-results/wasabi')
+const wasabiConf = makeConf(providers.wasabi({
+  access_key: 'top-secret',
+  secret_key: 'more secret'
+}))
+
+for (const line of wasabiConf) {
+  wasabiWriter.write(line + '\r\n')
+}

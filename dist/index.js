@@ -24993,6 +24993,14 @@ const providers = {
     website_endpoint: '',
     access_key,
     secret_key,
+  }),
+  wasabi: ({ region = 'ap-southeast-1', access_key = '', secret_key = '' }) => ({
+    bucket_location: region,
+    host_base: `s3.${region}.wasabisys.com`,
+    host_bucket: `%(bucket)s.s3.${region}.wasabisys.com`,
+    website_endpoint: '',
+    access_key,
+    secret_key,
   })
 }
 

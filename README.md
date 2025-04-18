@@ -46,7 +46,7 @@ Supported values: `aws`, `digitalocean`, `linode`, `scaleway`, `cloudflare`, `vu
 
 ```yml
 - name: Set up S3cmd cli tool
-  uses: s3-actions/s3cmd@v1.9.0
+  uses: s3-actions/s3cmd@v1.10.1
   with:
     provider: aws # default is linode
     region: 'eu-central-1'

@@ -7,8 +7,8 @@ This action is a simple wrapper for [S3cmd](https://github.com/s3tools/s3cmd).
 Currently the below providers are supported, but it could be used with other providers too when using additional flags.
 
 - AWS
-- Linode
 - DigitalOcean
+- Linode
 - Scaleway
 - Cloudflare
 - Vultr
@@ -16,12 +16,15 @@ Currently the below providers are supported, but it could be used with other pro
 - Hetzner Cloud
 - Synology C2
 - Wasabi
+- Yandex
 
 ## Inputs
 
 ### `provider`
 
-**Not Required** The s3 provider to use. Defaults to Linode. AWS, Linode, DigitalOcean, Scaleway, Cloudflare, Vultr, CleverCloud, Hetzner Cloud, Synology C2, Wasabi are supported.
+**Not Required** The s3 provider to use. Defaults to `linode`. 
+
+Supported values: `aws`, `digitalocean`, `linode`, `scaleway`, `cloudflare`, `vultr`, `clevercloud`, `hcloud`, `synologyc2`, `wasabi`, `yandex`.
 
 ### `secret_key`
 

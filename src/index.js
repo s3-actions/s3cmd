@@ -41,12 +41,18 @@ if (process.env.RUNNER_TEMP) {
   core.debug(`S3CMD_CONFIG=${process.env.S3CMD_CONFIG}`);
 }
 
+// expose the access and secret key as github action variables.
+// registering them as secret, just to be sure. normally they should be
+// be registered already. registering leads to masking in logs
+core.setSecret(core.getInput("access_key"));
+core.setSecret(core.getInput("secret_key"));
+core.exportVariable("AWS_ACCESS_KEY", core.getInput("access_key"));
+core.exportVariable("AWS_SECRET_KEY", core.getInput("secret_key"));
+
 configure(
   providers[core.getInput("provider")]({
     region: core.getInput("region"),
     account_id: core.getInput("account_id"),
-    access_key: core.getInput("access_key"),
-    secret_key: core.getInput("secret_key"),
   }),
 );
 

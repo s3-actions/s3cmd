@@ -87,5 +87,5 @@ s3cmd mb --host ap-south-1.linodeobjects.com  s3://my-bucket
 Copy the hooks into the git folder:
 
 ```shell
-cp assets/hooks/* .git/hooks/
+install  pre-commit.sh .git/hooks/pre-commit
 ```

@@ -1,9 +1,14 @@
+---
 name: "Use S3cmd"
 description: "Use S3cmd cli to interact with s3 object storage"
 branding:
   icon: "award"
   color: "green"
 inputs:
+  s3cmd_version:
+    description: "s3cmd version to use (default: 2.4.0)"
+    default: "2.4.0"
+    required: false
   provider:
     description: "config provider to make it easier to use the cli as action"
     default: "linode"

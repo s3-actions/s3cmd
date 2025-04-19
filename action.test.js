@@ -6,13 +6,15 @@ const { tests } = require("./src/providers");
 const { RunOptions, RunTarget } = require("github-action-ts-run-api");
 
 (async () => {
-  for (const [provider, { giveInputs, wantLines }] of Object.entries(tests)) {
-    console.log(`\n---\nTesting provider: ${provider}`);
+  for (const { name, giveInputs, wantLines } of tests) {
+    const tag = name || giveInputs.provider || "unknown";
+
+    console.log(`\n---\nTesting provider: ${tag}`);
 
     const target = RunTarget.mainJs("action.yml");
     const options = RunOptions.create()
       .setFakeFsOptions({ rmFakedTempDirAfterRun: false })
-      .setInputs({ ...giveInputs, provider });
+      .setInputs(giveInputs);
 
     const res = await target.run(options);
     try {
@@ -21,7 +23,7 @@ const { RunOptions, RunTarget } = require("github-action-ts-run-api");
       const b = readFileSync(join(res.tempDirPath, "s3cmd.conf"));
       const data = b.toString();
       for (const line of wantLines) {
-        assert.ok(data.includes(line), `${provider}: missing line: ${line}`);
+        assert.ok(data.includes(line), `${tag}: missing line: ${line}`);
       }
     } finally {
       res.cleanUpFakedDirs();

@@ -42,6 +42,7 @@ jobs:
         region: us-east-1
         access_key: supersecret
         secret_key: supersecret
+        icecream_flavor: vanilla
 
     - name: check that s3cmd works
       run: s3cmd --dump-config

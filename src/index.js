@@ -2,7 +2,7 @@ const { execSync } = require("node:child_process");
 
 const core = require("@actions/core");
 
-const { configure } = require("./config");
+const { defaults, configure } = require("./config");
 const providers = require("./providers");
 
 try {
@@ -10,7 +10,6 @@ try {
   core.notice(`s3cmd already installed: ${s}`);
 } catch {
   const s3cmdVersion = core.getInput("s3cmd_version") || "2.4.0";
-
   const cmd = [
     "pip3",
     "install",
@@ -44,16 +43,40 @@ if (process.env.RUNNER_TEMP) {
 // expose the access and secret key as github action variables.
 // registering them as secret, just to be sure. normally they should be
 // be registered already. registering leads to masking in logs
-core.setSecret(core.getInput("access_key"));
-core.setSecret(core.getInput("secret_key"));
-core.exportVariable("AWS_ACCESS_KEY", core.getInput("access_key"));
-core.exportVariable("AWS_SECRET_KEY", core.getInput("secret_key"));
+const accessKey = core.getInput("access_key");
+if (accessKey) {
+  core.setSecret(accessKey);
+  core.exportVariable("AWS_ACCESS_KEY", accessKey);
+}
 
-configure(
-  providers[core.getInput("provider")]({
-    region: core.getInput("region"),
-    account_id: core.getInput("account_id"),
-  }),
+const secretKey = core.getInput("secret_key");
+if (secretKey) {
+  core.setSecret(secretKey);
+  core.exportVariable("AWS_SECRET_KEY", secretKey);
+}
+
+// get all inputs
+const inputs = Object.fromEntries(
+  Object.entries(process.env)
+    .filter(([key]) => key.startsWith("INPUT_"))
+    .map(([key, value]) => [
+      key.replace("INPUT_", "").toLowerCase(),
+      value.trim(),
+    ]),
 );
+
+// delete any unwanted keys
+delete inputs["s3cmd_version"];
+delete inputs["provider"];
+delete inputs["secret_key"];
+delete inputs["access_key"];
+
+const settings = providers[core.getInput("provider")]({
+  ...defaults,
+  ...inputs,
+});
+
+// write the s3cmd config file to the temp dir
+configure(settings);
 
 return 0;

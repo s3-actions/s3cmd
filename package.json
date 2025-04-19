@@ -5,15 +5,16 @@
   "main": "src/index.js",
   "scripts": {
     "build": "ncc build src/index.js -o dist/",
-    "test": "node src/test.js"
+    "test": "npm run build && node action.test.js"
   },
-  "author": "",
+  "author": "Nico Braun",
   "license": "ISC",
   "dependencies": {
     "@actions/core": "^1.2.6",
     "@actions/github": "^4.0.0"
   },
   "devDependencies": {
-    "@vercel/ncc": "^0.38.1"
+    "@vercel/ncc": "^0.38.1",
+    "github-action-ts-run-api": "^3.0.4"
   }
 }

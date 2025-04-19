@@ -24916,112 +24916,305 @@ exports["default"] = _default;
 
 /***/ }),
 
-/***/ 8842:
+/***/ 4570:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-const defaults = __nccwpck_require__(724)
+const { join } = __nccwpck_require__(9411);
+const { homedir } = __nccwpck_require__(612);
+const { createWriteStream } = __nccwpck_require__(7561);
 
-const providers = {
-  aws: ({ region = 'US', access_key = '', secret_key = '' }) => ({
-    bucket_location: region,
-    host_base: 's3.amazonaws.com',
-    host_bucket: '%(bucket)s.s3.amazonaws.com',
-    website_endpoint: 'http://%(bucket)s.s3-website-%(location)s.amazonaws.com/',
-    access_key,
-    secret_key,
-  }),
-  digitalocean: ({ region = 'nyc3', access_key = '', secret_key = '' }) => ({
-    bucket_location: region,
-    host_base: `${region}.digitaloceanspaces.com`,
-    host_bucket: `%(bucket)s.${region}.digitaloceanspaces.com`,
-    website_endpoint: `http://%(bucket)s.website-${region}.digitaloceanspaces.com`,
-    access_key,
-    secret_key,
-  }),
-  linode: ({ region = 'eu-central-1', access_key = '', secret_key = '' }) => ({
-    bucket_location: 'US',
-    host_base: `${region}.linodeobjects.com`,
-    host_bucket: `%(bucket)s.${region}.linodeobjects.com`,
-    website_endpoint: `http://%(bucket)s.website-${region}.linodeobjects.com/`,
-    access_key,
-    secret_key,
-  }),
-  scaleway: ({ region = 'fr-par', access_key = '', secret_key = '' }) => ({
-    bucket_location: region,
-    host_base: `s3.${region}.scw.cloud`,
-    host_bucket: `%(bucket)s.s3.${region}.scw.cloud`,
-    website_endpoint: `https://%(bucket)s.s3-website.${region}.scw.cloud/`,
-    access_key,
-    secret_key,
-  }),
-  cloudflare: ({ account_id = '', region = 'auto', access_key = '', secret_key = '' }) => ({
-    bucket_location: region,
-    host_base: `${account_id}.r2.cloudflarestorage.com`,
-    host_bucket: '',
-    website_endpoint: '',
-    access_key,
-    secret_key,
-  }),
-  vultr: ({ region = 'ewr1', access_key = '', secret_key = '' }) => ({
-    bucket_location: region,
-    host_base: `${region}.vultrobjects.com`,
-    host_bucket: `%(bucket)s.${region}.vultrobjects.com`,
-    website_endpoint: '',
-    access_key,
-    secret_key,
-  }),
-  clevercloud: ({ region = 'US', access_key = '', secret_key = '' }) => ({
-    bucket_location: region,
-    host_base: `cellar-c2.services.clever-cloud.com`,
-    host_bucket: `%(bucket)s.cellar-c2.services.clever-cloud.com`,
-    website_endpoint: '',
-    access_key,
-    secret_key,
-  }),
-  hcloud: ({ region = 'fsn1', access_key = '', secret_key = '' }) => ({
-    bucket_location: region,
-    host_base: `fsn1.your-objectstorage.com`,
-    host_bucket: `%(bucket)s.fsn1.your-objectstorage.com`,
-    website_endpoint: '',
-    access_key,
-    secret_key,
-  }),
-  synologyc2: ({ region = 'us-001', access_key = '', secret_key = '' }) => ({
-    bucket_location: region,
-    host_base: `${region}.s3.synologyc2.net`,
-    host_bucket: ``,
-    website_endpoint: '',
-    access_key,
-    secret_key,
-  }),
-  wasabi: ({ region = 'ap-southeast-1', access_key = '', secret_key = '' }) => ({
-    bucket_location: region,
-    host_base: `s3.${region}.wasabisys.com`,
-    host_bucket: `%(bucket)s.s3.${region}.wasabisys.com`,
-    website_endpoint: '',
-    access_key,
-    secret_key,
-  }),
-  yandex: ({ region = 'ru-central1', access_key = '', secret_key = '' }) => ({
-    bucket_location: region,
-    host_base: `storage.yandexcloud.net`,
-    host_bucket: `%(bucket)s.storage.yandexcloud.net`,
-    website_endpoint: '',
-    access_key,
-    secret_key,
-  }),
+const defaults = __nccwpck_require__(724);
+
+function build(provider) {
+  const opts = { ...defaults, ...provider };
+  return Object.entries(opts).map(([k, v]) => `${k} = ${v}`);
 }
 
-const makeConf = (provider) => {
-  const opts = { ...defaults, ...provider }
-  return Object.entries(opts).map(([k, v]) => `${k} = ${v}`)
+function write(path, lines) {
+  const writer = createWriteStream(path);
+  for (const line of lines) {
+    writer.write(line + "\r\n");
+  }
+}
+
+function configure(provider) {
+  const path = process.env.S3CMD_CONFIG || join(homedir(), ".s3cfg");
+  return write(path, build(provider));
 }
 
 module.exports = {
-  providers,
-  makeConf
-}
+  configure,
+  build,
+  write,
+};
 
+
+/***/ }),
+
+/***/ 8842:
+/***/ ((__unused_webpack_module, exports) => {
+
+const tests = {};
+exports.tests = tests;
+
+exports.aws = ({ region = "US", access_key = "", secret_key = "" }) => ({
+  bucket_location: region,
+  host_base: "s3.amazonaws.com",
+  host_bucket: "%(bucket)s.s3.amazonaws.com",
+  website_endpoint: "http://%(bucket)s.s3-website-%(location)s.amazonaws.com/",
+  access_key,
+  secret_key,
+});
+
+tests.aws = {
+  giveInputs: {
+    region: "us-east-1",
+  },
+  wantLines: [
+    "bucket_location = us-east-1",
+    "host_base = s3.amazonaws.com",
+    "host_bucket = %(bucket)s.s3.amazonaws.com",
+    "website_endpoint = http://%(bucket)s.s3-website-%(location)s.amazonaws.com/",
+  ],
+};
+
+exports.digitalocean = ({
+  region = "nyc3",
+  access_key = "",
+  secret_key = "",
+}) => ({
+  bucket_location: region,
+  host_base: `${region}.digitaloceanspaces.com`,
+  host_bucket: `%(bucket)s.${region}.digitaloceanspaces.com`,
+  website_endpoint: `http://%(bucket)s.website-${region}.digitaloceanspaces.com`,
+  access_key,
+  secret_key,
+});
+
+tests.digitalocean = {
+  giveInputs: {
+    region: "nyc3",
+  },
+  wantLines: [
+    "bucket_location = nyc3",
+    "host_base = nyc3.digitaloceanspaces.com",
+    "host_bucket = %(bucket)s.nyc3.digitaloceanspaces.com",
+    "website_endpoint = http://%(bucket)s.website-nyc3.digitaloceanspaces.com",
+  ],
+};
+
+exports.linode = ({
+  region = "eu-central-1",
+  access_key = "",
+  secret_key = "",
+}) => ({
+  bucket_location: "US",
+  host_base: `${region}.linodeobjects.com`,
+  host_bucket: `%(bucket)s.${region}.linodeobjects.com`,
+  website_endpoint: `http://%(bucket)s.website-${region}.linodeobjects.com/`,
+  access_key,
+  secret_key,
+});
+
+tests.linode = {
+  giveInputs: {
+    region: "us-central-1",
+  },
+  wantLines: [
+    "bucket_location = US",
+    "host_base = us-central-1.linodeobjects.com",
+    "host_bucket = %(bucket)s.us-central-1.linodeobjects.com",
+    "website_endpoint = http://%(bucket)s.website-us-central-1.linodeobjects.com/",
+  ],
+};
+
+exports.scaleway = ({
+  region = "fr-par",
+  access_key = "",
+  secret_key = "",
+}) => ({
+  bucket_location: region,
+  host_base: `s3.${region}.scw.cloud`,
+  host_bucket: `%(bucket)s.s3.${region}.scw.cloud`,
+  website_endpoint: `https://%(bucket)s.s3-website.${region}.scw.cloud/`,
+  access_key,
+  secret_key,
+});
+
+tests.scaleway = {
+  giveInputs: {
+    region: "fr-par",
+  },
+  wantLines: [
+    "bucket_location = fr-par",
+    "host_base = s3.fr-par.scw.cloud",
+    "host_bucket = %(bucket)s.s3.fr-par.scw.cloud",
+    "website_endpoint = https://%(bucket)s.s3-website.fr-par.scw.cloud/",
+  ],
+};
+
+exports.cloudflare = ({
+  account_id = "",
+  region = "auto",
+  access_key = "",
+  secret_key = "",
+}) => ({
+  bucket_location: region,
+  host_base: `${account_id}.r2.cloudflarestorage.com`,
+  host_bucket: "",
+  website_endpoint: "",
+  access_key,
+  secret_key,
+});
+
+tests.cloudflare = {
+  giveInputs: {
+    account_id: "your_account_id",
+    region: "auto",
+  },
+  wantLines: [
+    "bucket_location = auto",
+    "host_base = your_account_id.r2.cloudflarestorage.com",
+    "host_bucket = ",
+    "website_endpoint = ",
+  ],
+};
+
+exports.vultr = ({ region = "ewr1", access_key = "", secret_key = "" }) => ({
+  bucket_location: region,
+  host_base: `${region}.vultrobjects.com`,
+  host_bucket: `%(bucket)s.${region}.vultrobjects.com`,
+  website_endpoint: "",
+  access_key,
+  secret_key,
+});
+
+tests.vultr = {
+  giveInputs: {
+    region: "ewr1",
+  },
+  wantLines: [
+    "bucket_location = ewr1",
+    "host_base = ewr1.vultrobjects.com",
+    "host_bucket = %(bucket)s.ewr1.vultrobjects.com",
+  ],
+};
+
+exports.clevercloud = ({
+  region = "US",
+  access_key = "",
+  secret_key = "",
+}) => ({
+  bucket_location: region,
+  host_base: `cellar-c2.services.clever-cloud.com`,
+  host_bucket: `%(bucket)s.cellar-c2.services.clever-cloud.com`,
+  website_endpoint: "",
+  access_key,
+  secret_key,
+});
+
+tests.clevercloud = {
+  giveInputs: {
+    region: "US",
+  },
+  wantLines: [
+    "bucket_location = US",
+    "host_base = cellar-c2.services.clever-cloud.com",
+    "host_bucket = %(bucket)s.cellar-c2.services.clever-cloud.com",
+    "website_endpoint = ",
+  ],
+};
+
+exports.hcloud = ({ region = "fsn1", access_key = "", secret_key = "" }) => ({
+  bucket_location: region,
+  host_base: `fsn1.your-objectstorage.com`,
+  host_bucket: `%(bucket)s.fsn1.your-objectstorage.com`,
+  website_endpoint: "",
+  access_key,
+  secret_key,
+});
+
+tests.hcloud = {
+  giveInputs: {
+    region: "fsn1",
+  },
+  wantLines: [
+    "bucket_location = fsn1",
+    "host_base = fsn1.your-objectstorage.com",
+    "host_bucket = %(bucket)s.fsn1.your-objectstorage.com",
+  ],
+};
+
+exports.synologyc2 = ({
+  region = "us-001",
+  access_key = "",
+  secret_key = "",
+}) => ({
+  bucket_location: region,
+  host_base: `${region}.s3.synologyc2.net`,
+  host_bucket: ``,
+  website_endpoint: "",
+  access_key,
+  secret_key,
+});
+
+tests.synologyc2 = {
+  giveInputs: {
+    region: "us-001",
+  },
+  wantLines: [
+    "bucket_location = us-001",
+    "host_base = us-001.s3.synologyc2.net",
+  ],
+};
+
+exports.wasabi = ({
+  region = "ap-southeast-1",
+  access_key = "",
+  secret_key = "",
+}) => ({
+  bucket_location: region,
+  host_base: `s3.${region}.wasabisys.com`,
+  host_bucket: `%(bucket)s.s3.${region}.wasabisys.com`,
+  website_endpoint: "",
+  access_key,
+  secret_key,
+});
+
+tests.wasabi = {
+  giveInputs: {
+    region: "ap-southeast-1",
+  },
+  wantLines: [
+    "bucket_location = ap-southeast-1",
+    "host_base = s3.ap-southeast-1.wasabisys.com",
+    "host_bucket = %(bucket)s.s3.ap-southeast-1.wasabisys.com",
+  ],
+};
+
+exports.yandex = ({
+  region = "ru-central1",
+  access_key = "",
+  secret_key = "",
+}) => ({
+  bucket_location: region,
+  host_base: `storage.yandexcloud.net`,
+  host_bucket: `%(bucket)s.storage.yandexcloud.net`,
+  website_endpoint: "",
+  access_key,
+  secret_key,
+});
+
+tests.yandex = {
+  giveInputs: {
+    region: "ru-central1",
+  },
+  wantLines: [
+    "bucket_location = ru-central1",
+    "host_base = storage.yandexcloud.net",
+    "host_bucket = %(bucket)s.storage.yandexcloud.net",
+  ],
+};
 
 
 /***/ }),
@@ -25047,14 +25240,6 @@ module.exports = require("async_hooks");
 
 "use strict";
 module.exports = require("buffer");
-
-/***/ }),
-
-/***/ 2081:
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("child_process");
 
 /***/ }),
 
@@ -25130,11 +25315,43 @@ module.exports = require("net");
 
 /***/ }),
 
+/***/ 7718:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("node:child_process");
+
+/***/ }),
+
 /***/ 5673:
 /***/ ((module) => {
 
 "use strict";
 module.exports = require("node:events");
+
+/***/ }),
+
+/***/ 7561:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("node:fs");
+
+/***/ }),
+
+/***/ 612:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("node:os");
+
+/***/ }),
+
+/***/ 9411:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("node:path");
 
 /***/ }),
 
@@ -26887,7 +27104,7 @@ module.exports = parseParams
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"access_key":"","access_token":"","add_encoding_exts":"","add_headers":"","bucket_location":"US","ca_certs_file":"","cache_file":"","check_ssl_certificate":"True","check_ssl_hostname":"True","cloudfront_host":"cloudfront.amazonaws.com","connection_pooling":"True","content_disposition":"","content_type":"","default_mime_type":"binary/octet-stream","delay_updates":"False","delete_after":"False","delete_after_fetch":"False","delete_removed":"False","dry_run":"False","enable_multipart":"True","encoding":"UTF-8","encrypt":"False","expiry_date":"","expiry_days":"","expiry_prefix":"","follow_symlinks":"False","force":"False","get_continue":"False","gpg_command":"/usr/bin/gpg","gpg_decrypt":"%(gpg_command)s -d --verbose --no-use-agent --batch --yes --passphrase-fd %(passphrase_fd)s -o %(output_file)s %(input_file)s","gpg_encrypt":"%(gpg_command)s -c --verbose --no-use-agent --batch --yes --passphrase-fd %(passphrase_fd)s -o %(output_file)s %(input_file)s","gpg_passphrase":"","guess_mime_type":"True","host_base":"s3.amazonaws.com","host_bucket":"%(bucket)s.s3.amazonaws.com","human_readable_sizes":"False","invalidate_default_index_on_cf":"False","invalidate_default_index_root_on_cf":"True","invalidate_on_cf":"False","kms_key":"","limit":"-1","limitrate":"0","list_md5":"False","log_target_prefix":"","long_listing":"False","max_delete":"-1","mime_type":"","multipart_chunk_size_mb":"15","multipart_max_chunks":"10000","preserve_attrs":"True","progress_meter":"True","proxy_host":"","proxy_port":"0","public_url_use_https":"False","put_continue":"False","recursive":"False","recv_chunk":"65536","reduced_redundancy":"False","requester_pays":"False","restore_days":"1","restore_priority":"Standard","secret_key":"","send_chunk":"65536","server_side_encryption":"False","signature_v2":"False","signurl_use_https":"False","simpledb_host":"sdb.amazonaws.com","skip_existing":"False","socket_timeout":"300","stats":"False","stop_on_error":"False","storage_class":"","throttle_max":"100","upload_id":"","urlencoding_mode":"normal","use_http_expect":"False","use_https":"True","use_mime_magic":"True","verbosity":"WARNING","website_endpoint":"http://%(bucket)s.s3-website-%(location)s.amazonaws.com/","website_error":"","website_index":"index.html"}');
+module.exports = JSON.parse('{"access_key":"","access_token":"","add_encoding_exts":"","add_headers":"","bucket_location":"US","ca_certs_file":"","cache_file":"","check_ssl_certificate":"True","check_ssl_hostname":"True","cloudfront_host":"cloudfront.amazonaws.com","connection_max_age":"5","connection_pooling":"True","content_disposition":"","content_type":"","default_mime_type":"binary/octet-stream","delay_updates":"False","delete_after":"False","delete_after_fetch":"False","delete_removed":"False","dry_run":"False","enable_multipart":"True","encoding":"UTF-8","encrypt":"False","expiry_date":"","expiry_days":"","expiry_prefix":"","follow_symlinks":"False","force":"False","get_continue":"False","gpg_command":"/usr/bin/gpg","gpg_decrypt":"%(gpg_command)s -d --verbose --no-use-agent --batch --yes --passphrase-fd %(passphrase_fd)s -o %(output_file)s %(input_file)s","gpg_encrypt":"%(gpg_command)s -c --verbose --no-use-agent --batch --yes --passphrase-fd %(passphrase_fd)s -o %(output_file)s %(input_file)s","gpg_passphrase":"","guess_mime_type":"True","host_base":"s3.amazonaws.com","host_bucket":"%(bucket)s.s3.amazonaws.com","human_readable_sizes":"False","invalidate_default_index_on_cf":"False","invalidate_default_index_root_on_cf":"True","invalidate_on_cf":"False","keep_dirs":"False","kms_key":"","limit":"-1","limitrate":"0","list_allow_unordered":"False","list_md5":"False","log_target_prefix":"","long_listing":"False","max_delete":"-1","max_retries":"5","mime_type":"","multipart_chunk_size_mb":"15","multipart_copy_chunk_size_mb":"1024","multipart_max_chunks":"10000","preserve_attrs":"True","progress_meter":"True","proxy_host":"","proxy_port":"0","public_url_use_https":"False","put_continue":"False","recursive":"False","recv_chunk":"65536","reduced_redundancy":"False","requester_pays":"False","restore_days":"1","restore_priority":"Standard","secret_key":"","send_chunk":"65536","server_side_encryption":"False","signature_v2":"False","signurl_use_https":"False","simpledb_host":"sdb.amazonaws.com","skip_destination_validation":"False","skip_existing":"False","socket_timeout":"300","ssl_client_cert_file":"","ssl_client_key_file":"","stats":"False","stop_on_error":"False","storage_class":"","throttle_max":"100","upload_id":"","urlencoding_mode":"normal","use_http_expect":"False","use_https":"True","use_mime_magic":"True","verbosity":"WARNING","website_endpoint":"http://%(bucket)s.s3-website-%(location)s.amazonaws.com/","website_error":"","website_index":"index.html"}');
 
 /***/ })
 
@@ -26932,33 +27149,59 @@ module.exports = JSON.parse('{"access_key":"","access_token":"","add_encoding_ex
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
+const { execSync } = __nccwpck_require__(7718);
+
 const core = __nccwpck_require__(2186);
-const homedir = (__nccwpck_require__(2037).homedir)();
-const path = (__nccwpck_require__(1017).join)(homedir, '.s3cfg')
-const { execSync } = __nccwpck_require__(2081);
-const { createWriteStream } = __nccwpck_require__(7147)
-const { providers, makeConf } = __nccwpck_require__(8842)
+
+const { configure } = __nccwpck_require__(4570);
+const providers = __nccwpck_require__(8842);
 
 try {
-  execSync("/bin/bash -c 'pip3 install s3cmd --no-cache --break-system-packages'")
+  const s = execSync("s3cmd --version").toString().trim();
+  core.notice(`s3cmd already installed: ${s}`);
 } catch {
-  execSync("/bin/bash -c 'pip3 install s3cmd --no-cache'")
+  const s3cmdVersion = core.getInput("s3cmd_version") || "2.4.0";
+
+  const cmd = [
+    "pip3",
+    "install",
+    `s3cmd==${s3cmdVersion}`,
+    "--no-cache",
+    "--break-system-packages",
+  ];
+
+  // on new versions of linux, pip wont install system wide packages
+  // without using the --break-system-packages flag. however, on older
+  // systems, this flag is not known to pip and will cause an error.
+  try {
+    core.notice("attempting to install s3cmd");
+    core.debug(execSync(cmd.join(" ")).toString());
+  } catch {
+    core.debug("pip3 install failed, trying without --break-system-packages");
+    cmd.pop();
+    core.debug(execSync(cmd.join(" ")).toString());
+  }
 }
 
-const conf = makeConf(providers[core.getInput('provider')]({
-  region: core.getInput("region"),
-  account_id: core.getInput("account_id"),
-  access_key: core.getInput("access_key"),
-  secret_key: core.getInput("secret_key"),
-}))
-
-const writer = createWriteStream(path)
-
-for (const line of conf) {
-  writer.write(line + '\r\n')
+// set the config file location via env var to the github temp dir.
+// the variable needs to persist for subsequent commands, so we set it as a
+// github action variable as well.
+if (process.env.RUNNER_TEMP) {
+  process.env.S3CMD_CONFIG = `${process.env.RUNNER_TEMP}/s3cmd.conf`;
+  core.exportVariable("S3CMD_CONFIG", process.env.S3CMD_CONFIG);
+  core.debug(`S3CMD_CONFIG=${process.env.S3CMD_CONFIG}`);
 }
 
-return 0
+configure(
+  providers[core.getInput("provider")]({
+    region: core.getInput("region"),
+    account_id: core.getInput("account_id"),
+    access_key: core.getInput("access_key"),
+    secret_key: core.getInput("secret_key"),
+  }),
+);
+
+return 0;
 
 })();
 

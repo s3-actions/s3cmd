@@ -35,3 +35,13 @@ jobs:
     - name: Run Tests
       run: npm run test
 
+    - name: configure local
+      uses: ./
+      with:
+        provider: linode
+        region: us-east-1
+        access_key: supersecret
+        secret_key: supersecret
+
+    - name: check that s3cmd works
+      run: s3cmd --dump-config

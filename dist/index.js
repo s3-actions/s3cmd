@@ -24925,27 +24925,31 @@ const { createWriteStream } = __nccwpck_require__(7561);
 
 const defaults = __nccwpck_require__(724);
 
-function build(provider) {
-  const opts = { ...defaults, ...provider };
-  return Object.entries(opts).map(([k, v]) => `${k} = ${v}`);
+function toLines(settings) {
+  return Object.entries(settings).map(([k, v]) => `${k} = ${v}`);
 }
 
-function write(path, lines) {
+function writeLines(path, lines) {
   const writer = createWriteStream(path);
   for (const line of lines) {
     writer.write(line + "\r\n");
   }
 }
 
-function configure(provider) {
-  const path = process.env.S3CMD_CONFIG || join(homedir(), ".s3cfg");
-  return write(path, build(provider));
+function configPath() {
+  return process.env.S3CMD_CONFIG || join(homedir(), ".s3cfg");
+}
+
+function configure(settings) {
+  return writeLines(configPath(), toLines(settings));
 }
 
 module.exports = {
+  defaults,
+  toLines,
+  writeLines,
+  configPath,
   configure,
-  build,
-  write,
 };
 
 
@@ -24954,25 +24958,38 @@ module.exports = {
 /***/ 8842:
 /***/ ((__unused_webpack_module, exports) => {
 
-const tests = {};
+const tests = [];
 exports.tests = tests;
 
-// each provider function should return an object of keys that should be
-// set in the final s3cmd config file. Any key can be set. not just the
-// ones that are commonly used below.
-// for each provider, one or more tests should be defined in the tests
-// object.
+// the user inputs are merged ontop of the defaults.
+// the result is passed to one of the provider functions.
+// the provider should return the entire settings object back,
+// but it can modify them before doing so.
+// by destructing the interesting properties and spreading the rest,
+// keys can be removed or moedified. In the return object, the rest
+// should be spread back before the provider settings.
 
-exports.aws = ({ region = "US" }) => ({
+exports.passthrough = (settings) => settings;
+
+tests.push({
+  giveInputs: { provider: "passthrough", foo: "bar" },
+  wantLines: ["foo = bar"],
+});
+
+exports.aws = ({ region = "US", ...settings }) => ({
+  ...settings,
   bucket_location: region,
   host_base: "s3.amazonaws.com",
   host_bucket: "%(bucket)s.s3.amazonaws.com",
   website_endpoint: "http://%(bucket)s.s3-website-%(location)s.amazonaws.com/",
 });
 
-tests.aws = {
+tests.push({
   giveInputs: {
+    provider: "aws",
     region: "us-east-1",
+    secret_key: "foo",
+    access_key: "bar",
   },
   wantLines: [
     "bucket_location = us-east-1",
@@ -24980,17 +24997,19 @@ tests.aws = {
     "host_bucket = %(bucket)s.s3.amazonaws.com",
     "website_endpoint = http://%(bucket)s.s3-website-%(location)s.amazonaws.com/",
   ],
-};
+});
 
-exports.digitalocean = ({ region = "nyc3" }) => ({
+exports.digitalocean = ({ region = "nyc3", ...settings }) => ({
+  ...settings,
   bucket_location: region,
   host_base: `${region}.digitaloceanspaces.com`,
   host_bucket: `%(bucket)s.${region}.digitaloceanspaces.com`,
   website_endpoint: `http://%(bucket)s.website-${region}.digitaloceanspaces.com`,
 });
 
-tests.digitalocean = {
+tests.push({
   giveInputs: {
+    provider: "digitalocean",
     region: "nyc3",
   },
   wantLines: [
@@ -24999,17 +25018,19 @@ tests.digitalocean = {
     "host_bucket = %(bucket)s.nyc3.digitaloceanspaces.com",
     "website_endpoint = http://%(bucket)s.website-nyc3.digitaloceanspaces.com",
   ],
-};
+});
 
-exports.linode = ({ region = "eu-central-1" }) => ({
+exports.linode = ({ region = "eu-central-1", ...settings }) => ({
+  ...settings,
   bucket_location: "US",
   host_base: `${region}.linodeobjects.com`,
   host_bucket: `%(bucket)s.${region}.linodeobjects.com`,
   website_endpoint: `http://%(bucket)s.website-${region}.linodeobjects.com/`,
 });
 
-tests.linode = {
+tests.push({
   giveInputs: {
+    provider: "linode",
     region: "us-central-1",
   },
   wantLines: [
@@ -25018,17 +25039,19 @@ tests.linode = {
     "host_bucket = %(bucket)s.us-central-1.linodeobjects.com",
     "website_endpoint = http://%(bucket)s.website-us-central-1.linodeobjects.com/",
   ],
-};
+});
 
-exports.scaleway = ({ region = "fr-par" }) => ({
+exports.scaleway = ({ region = "fr-par", ...settings }) => ({
+  ...settings,
   bucket_location: region,
   host_base: `s3.${region}.scw.cloud`,
   host_bucket: `%(bucket)s.s3.${region}.scw.cloud`,
   website_endpoint: `https://%(bucket)s.s3-website.${region}.scw.cloud/`,
 });
 
-tests.scaleway = {
+tests.push({
   giveInputs: {
+    provider: "scaleway",
     region: "fr-par",
   },
   wantLines: [
@@ -25037,17 +25060,19 @@ tests.scaleway = {
     "host_bucket = %(bucket)s.s3.fr-par.scw.cloud",
     "website_endpoint = https://%(bucket)s.s3-website.fr-par.scw.cloud/",
   ],
-};
+});
 
-exports.cloudflare = ({ account_id = "", region = "auto" }) => ({
+exports.cloudflare = ({ account_id = "", region = "auto", ...settings }) => ({
+  ...settings,
   bucket_location: region,
   host_base: `${account_id}.r2.cloudflarestorage.com`,
   host_bucket: "",
   website_endpoint: "",
 });
 
-tests.cloudflare = {
+tests.push({
   giveInputs: {
+    provider: "cloudflare",
     account_id: "your_account_id",
     region: "auto",
   },
@@ -25057,17 +25082,19 @@ tests.cloudflare = {
     "host_bucket = ",
     "website_endpoint = ",
   ],
-};
+});
 
-exports.vultr = ({ region = "ewr1" }) => ({
+exports.vultr = ({ region = "ewr1", ...settings }) => ({
+  ...settings,
   bucket_location: region,
   host_base: `${region}.vultrobjects.com`,
   host_bucket: `%(bucket)s.${region}.vultrobjects.com`,
   website_endpoint: "",
 });
 
-tests.vultr = {
+tests.push({
   giveInputs: {
+    provider: "vultr",
     region: "ewr1",
   },
   wantLines: [
@@ -25075,17 +25102,19 @@ tests.vultr = {
     "host_base = ewr1.vultrobjects.com",
     "host_bucket = %(bucket)s.ewr1.vultrobjects.com",
   ],
-};
+});
 
-exports.clevercloud = ({ region = "US" }) => ({
+exports.clevercloud = ({ region = "US", ...settings }) => ({
+  ...settings,
   bucket_location: region,
   host_base: `cellar-c2.services.clever-cloud.com`,
   host_bucket: `%(bucket)s.cellar-c2.services.clever-cloud.com`,
   website_endpoint: "",
 });
 
-tests.clevercloud = {
+tests.push({
   giveInputs: {
+    provider: "clevercloud",
     region: "US",
   },
   wantLines: [
@@ -25094,17 +25123,19 @@ tests.clevercloud = {
     "host_bucket = %(bucket)s.cellar-c2.services.clever-cloud.com",
     "website_endpoint = ",
   ],
-};
+});
 
-exports.hcloud = ({ region = "fsn1" }) => ({
+exports.hcloud = ({ region = "fsn1", ...settings }) => ({
+  ...settings,
   bucket_location: region,
   host_base: `fsn1.your-objectstorage.com`,
   host_bucket: `%(bucket)s.fsn1.your-objectstorage.com`,
   website_endpoint: "",
 });
 
-tests.hcloud = {
+tests.push({
   giveInputs: {
+    provider: "hcloud",
     region: "fsn1",
   },
   wantLines: [
@@ -25112,34 +25143,38 @@ tests.hcloud = {
     "host_base = fsn1.your-objectstorage.com",
     "host_bucket = %(bucket)s.fsn1.your-objectstorage.com",
   ],
-};
+});
 
-exports.synologyc2 = ({ region = "us-001" }) => ({
+exports.synologyc2 = ({ region = "us-001", ...settings }) => ({
+  ...settings,
   bucket_location: region,
   host_base: `${region}.s3.synologyc2.net`,
   host_bucket: ``,
   website_endpoint: "",
 });
 
-tests.synologyc2 = {
+tests.push({
   giveInputs: {
+    provider: "synologyc2",
     region: "us-001",
   },
   wantLines: [
     "bucket_location = us-001",
     "host_base = us-001.s3.synologyc2.net",
   ],
-};
+});
 
-exports.wasabi = ({ region = "ap-southeast-1" }) => ({
+exports.wasabi = ({ region = "ap-southeast-1", ...settings }) => ({
+  ...settings,
   bucket_location: region,
   host_base: `s3.${region}.wasabisys.com`,
   host_bucket: `%(bucket)s.s3.${region}.wasabisys.com`,
   website_endpoint: "",
 });
 
-tests.wasabi = {
+tests.push({
   giveInputs: {
+    provider: "wasabi",
     region: "ap-southeast-1",
   },
   wantLines: [
@@ -25147,17 +25182,19 @@ tests.wasabi = {
     "host_base = s3.ap-southeast-1.wasabisys.com",
     "host_bucket = %(bucket)s.s3.ap-southeast-1.wasabisys.com",
   ],
-};
+});
 
-exports.yandex = ({ region = "ru-central1" }) => ({
+exports.yandex = ({ region = "ru-central1", ...settings }) => ({
+  ...settings,
   bucket_location: region,
   host_base: `storage.yandexcloud.net`,
   host_bucket: `%(bucket)s.storage.yandexcloud.net`,
   website_endpoint: "",
 });
 
-tests.yandex = {
+tests.push({
   giveInputs: {
+    provider: "yandex",
     region: "ru-central1",
   },
   wantLines: [
@@ -25165,7 +25202,7 @@ tests.yandex = {
     "host_base = storage.yandexcloud.net",
     "host_bucket = %(bucket)s.storage.yandexcloud.net",
   ],
-};
+});
 
 
 /***/ }),
@@ -27104,7 +27141,7 @@ const { execSync } = __nccwpck_require__(7718);
 
 const core = __nccwpck_require__(2186);
 
-const { configure } = __nccwpck_require__(4570);
+const { defaults, configure } = __nccwpck_require__(4570);
 const providers = __nccwpck_require__(8842);
 
 try {
@@ -27112,7 +27149,6 @@ try {
   core.notice(`s3cmd already installed: ${s}`);
 } catch {
   const s3cmdVersion = core.getInput("s3cmd_version") || "2.4.0";
-
   const cmd = [
     "pip3",
     "install",
@@ -27146,17 +27182,41 @@ if (process.env.RUNNER_TEMP) {
 // expose the access and secret key as github action variables.
 // registering them as secret, just to be sure. normally they should be
 // be registered already. registering leads to masking in logs
-core.setSecret(core.getInput("access_key"));
-core.setSecret(core.getInput("secret_key"));
-core.exportVariable("AWS_ACCESS_KEY", core.getInput("access_key"));
-core.exportVariable("AWS_SECRET_KEY", core.getInput("secret_key"));
+const accessKey = core.getInput("access_key");
+if (accessKey) {
+  core.setSecret(accessKey);
+  core.exportVariable("AWS_ACCESS_KEY", accessKey);
+}
 
-configure(
-  providers[core.getInput("provider")]({
-    region: core.getInput("region"),
-    account_id: core.getInput("account_id"),
-  }),
+const secretKey = core.getInput("secret_key");
+if (secretKey) {
+  core.setSecret(secretKey);
+  core.exportVariable("AWS_SECRET_KEY", secretKey);
+}
+
+// get all inputs
+const inputs = Object.fromEntries(
+  Object.entries(process.env)
+    .filter(([key]) => key.startsWith("INPUT_"))
+    .map(([key, value]) => [
+      key.replace("INPUT_", "").toLowerCase(),
+      value.trim(),
+    ]),
 );
+
+// delete any unwanted keys
+delete inputs["s3cmd_version"];
+delete inputs["provider"];
+delete inputs["secret_key"];
+delete inputs["access_key"];
+
+const settings = providers[core.getInput("provider")]({
+  ...defaults,
+  ...inputs,
+});
+
+// write the s3cmd config file to the temp dir
+configure(settings);
 
 return 0;
 

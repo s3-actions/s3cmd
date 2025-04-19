@@ -4,25 +4,29 @@ const { createWriteStream } = require("node:fs");
 
 const defaults = require("./defaults.json");
 
-function build(provider) {
-  const opts = { ...defaults, ...provider };
-  return Object.entries(opts).map(([k, v]) => `${k} = ${v}`);
+function toLines(settings) {
+  return Object.entries(settings).map(([k, v]) => `${k} = ${v}`);
 }
 
-function write(path, lines) {
+function writeLines(path, lines) {
   const writer = createWriteStream(path);
   for (const line of lines) {
     writer.write(line + "\r\n");
   }
 }
 
-function configure(provider) {
-  const path = process.env.S3CMD_CONFIG || join(homedir(), ".s3cfg");
-  return write(path, build(provider));
+function configPath() {
+  return process.env.S3CMD_CONFIG || join(homedir(), ".s3cfg");
+}
+
+function configure(settings) {
+  return writeLines(configPath(), toLines(settings));
 }
 
 module.exports = {
+  defaults,
+  toLines,
+  writeLines,
+  configPath,
   configure,
-  build,
-  write,
 };

@@ -1,9 +1,8 @@
 const assert = require("node:assert");
 const { readFileSync } = require("node:fs");
 const { join } = require("node:path");
-const { tests } = require("./src/providers");
-
 const { RunOptions, RunTarget } = require("github-action-ts-run-api");
+const { tests } = require("./src/providers");
 
 (async () => {
   for (const [name, { giveInputs, wantLines }] of Object.entries(tests)) {

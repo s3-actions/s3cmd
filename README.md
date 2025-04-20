@@ -50,7 +50,7 @@ Cloudflare R2.
 
 ```yml
 - name: Set up S3cmd cli tool
-  uses: s3-actions/s3cmd@v1.10.1
+  uses: s3-actions/s3cmd@v2.0.0
   with:
     provider: aws # default is linode
     region: 'eu-central-1'

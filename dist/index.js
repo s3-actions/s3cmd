@@ -24937,9 +24937,9 @@ function write(path, lines) {
   }
 }
 
-function configure(provider) {
+function configure(settings, access_key, secret_key) {
   const path = process.env.S3CMD_CONFIG || join(homedir(), ".s3cfg");
-  return write(path, build(provider));
+  return write(path, build({ ...settings, access_key, secret_key }));
 }
 
 module.exports = {
@@ -24972,6 +24972,7 @@ exports.aws = ({ region = "US" }) => ({
 
 tests.aws = {
   giveInputs: {
+    provider: "aws",
     region: "us-east-1",
   },
   wantLines: [
@@ -24991,6 +24992,7 @@ exports.digitalocean = ({ region = "nyc3" }) => ({
 
 tests.digitalocean = {
   giveInputs: {
+    provider: "digitalocean",
     region: "nyc3",
   },
   wantLines: [
@@ -25010,6 +25012,7 @@ exports.linode = ({ region = "eu-central-1" }) => ({
 
 tests.linode = {
   giveInputs: {
+    provider: "linode",
     region: "us-central-1",
   },
   wantLines: [
@@ -25029,6 +25032,7 @@ exports.scaleway = ({ region = "fr-par" }) => ({
 
 tests.scaleway = {
   giveInputs: {
+    provider: "scaleway",
     region: "fr-par",
   },
   wantLines: [
@@ -25048,6 +25052,7 @@ exports.cloudflare = ({ account_id = "", region = "auto" }) => ({
 
 tests.cloudflare = {
   giveInputs: {
+    provider: "cloudflare",
     account_id: "your_account_id",
     region: "auto",
   },
@@ -25068,12 +25073,14 @@ exports.vultr = ({ region = "ewr1" }) => ({
 
 tests.vultr = {
   giveInputs: {
+    provider: "vultr",
     region: "ewr1",
   },
   wantLines: [
     "bucket_location = ewr1",
     "host_base = ewr1.vultrobjects.com",
     "host_bucket = %(bucket)s.ewr1.vultrobjects.com",
+    "website_endpoint = ",
   ],
 };
 
@@ -25086,6 +25093,7 @@ exports.clevercloud = ({ region = "US" }) => ({
 
 tests.clevercloud = {
   giveInputs: {
+    provider: "clevercloud",
     region: "US",
   },
   wantLines: [
@@ -25105,29 +25113,34 @@ exports.hcloud = ({ region = "fsn1" }) => ({
 
 tests.hcloud = {
   giveInputs: {
+    provider: "hcloud",
     region: "fsn1",
   },
   wantLines: [
     "bucket_location = fsn1",
     "host_base = fsn1.your-objectstorage.com",
     "host_bucket = %(bucket)s.fsn1.your-objectstorage.com",
+    "website_endpoint = ",
   ],
 };
 
 exports.synologyc2 = ({ region = "us-001" }) => ({
   bucket_location: region,
   host_base: `${region}.s3.synologyc2.net`,
-  host_bucket: ``,
+  host_bucket: "",
   website_endpoint: "",
 });
 
 tests.synologyc2 = {
   giveInputs: {
+    provider: "synologyc2",
     region: "us-001",
   },
   wantLines: [
     "bucket_location = us-001",
     "host_base = us-001.s3.synologyc2.net",
+    "host_bucket = ",
+    "website_endpoint = ",
   ],
 };
 
@@ -25140,12 +25153,14 @@ exports.wasabi = ({ region = "ap-southeast-1" }) => ({
 
 tests.wasabi = {
   giveInputs: {
+    provider: "wasabi",
     region: "ap-southeast-1",
   },
   wantLines: [
     "bucket_location = ap-southeast-1",
     "host_base = s3.ap-southeast-1.wasabisys.com",
     "host_bucket = %(bucket)s.s3.ap-southeast-1.wasabisys.com",
+    "website_endpoint = ",
   ],
 };
 
@@ -25158,12 +25173,14 @@ exports.yandex = ({ region = "ru-central1" }) => ({
 
 tests.yandex = {
   giveInputs: {
+    provider: "yandex",
     region: "ru-central1",
   },
   wantLines: [
     "bucket_location = ru-central1",
     "host_base = storage.yandexcloud.net",
     "host_bucket = %(bucket)s.storage.yandexcloud.net",
+    "website_endpoint = ",
   ],
 };
 
@@ -27143,19 +27160,13 @@ if (process.env.RUNNER_TEMP) {
   core.debug(`S3CMD_CONFIG=${process.env.S3CMD_CONFIG}`);
 }
 
-// expose the access and secret key as github action variables.
-// registering them as secret, just to be sure. normally they should be
-// be registered already. registering leads to masking in logs
-core.setSecret(core.getInput("access_key"));
-core.setSecret(core.getInput("secret_key"));
-core.exportVariable("AWS_ACCESS_KEY", core.getInput("access_key"));
-core.exportVariable("AWS_SECRET_KEY", core.getInput("secret_key"));
-
 configure(
   providers[core.getInput("provider")]({
     region: core.getInput("region"),
     account_id: core.getInput("account_id"),
   }),
+  core.getInput("access_key"),
+  core.getInput("secret_key"),
 );
 
 return 0;

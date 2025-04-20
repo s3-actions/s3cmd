@@ -16,9 +16,9 @@ function write(path, lines) {
   }
 }
 
-function configure(provider) {
+function configure(settings, access_key, secret_key) {
   const path = process.env.S3CMD_CONFIG || join(homedir(), ".s3cfg");
-  return write(path, build(provider));
+  return write(path, build({ ...settings, access_key, secret_key }));
 }
 
 module.exports = {

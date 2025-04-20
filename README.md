@@ -21,6 +21,10 @@ other providers too when using additional flags.
 
 ## Inputs
 
+### `s3cmd_version`
+
+**Not Required** The version of s3cmd to install. Defaults to `2.4.0`.
+
 ### `provider`
 
 **Not Required** The s3 provider to use. Defaults to `linode`.
@@ -48,7 +52,7 @@ Cloudflare R2.
 
 ## Example usage
 
-```yml
+```yaml
 - name: Set up S3cmd cli tool
   uses: s3-actions/s3cmd@v2.0.0
   with:

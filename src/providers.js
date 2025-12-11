@@ -228,3 +228,23 @@ tests.yandex = {
         "website_endpoint = ",
     ],
 };
+
+exports.stackit = ({ region = "US" }) => ({
+    bucket_location: region,
+    host_base: `object.storage.eu01.onstackit.cloud`,
+    host_bucket: `object.storage.eu01.onstackit.cloud/%(bucket)`,
+    website_endpoint: "",
+});
+
+tests.stackit = {
+    giveInputs: {
+        provider: "stackit",
+        region: "US",
+    },
+    wantLines: [
+        "bucket_location = US",
+        "host_base = object.storage.eu01.onstackit.cloud",
+        "host_bucket = object.storage.eu01.onstackit.cloud/%(bucket)",
+        "website_endpoint = ",
+    ],
+};

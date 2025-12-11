@@ -18,6 +18,7 @@ other providers too when using additional flags.
 - Synology C2
 - Wasabi
 - Yandex
+- Stackit
 
 ## Inputs
 
@@ -31,7 +32,7 @@ other providers too when using additional flags.
 
 Supported values: `aws`, `digitalocean`, `linode`, `scaleway`,
 `cloudflare`, `vultr`, `clevercloud`, `hcloud`, `synologyc2`, `wasabi`,
-`yandex`.
+`yandex`, `stackit`.
 
 ### `secret_key`
 

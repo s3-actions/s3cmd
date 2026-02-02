@@ -1,4 +1,3 @@
----
 name: validate
 
 on:
@@ -23,14 +22,7 @@ jobs:
       run: npm ci
 
     - name: verify dist is up to date
-      run: |
-        mv dist/index.js old
-        npm run build
-        if cmp --silent -- old dist/index.js; then
-          exit 0
-        else
-          exit 1
-        fi
+      run: bash -x .github/verify.sh
 
     - name: Run Tests
       run: npm run test

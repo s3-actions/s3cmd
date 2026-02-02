@@ -4,4 +4,3 @@ set -e
 echo "building action:"
 exec 2>&1
 npm run build
-return 0

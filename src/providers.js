@@ -33,6 +33,7 @@ exports.digitalocean = ({ region = "nyc3" }) => ({
     host_base: `${region}.digitaloceanspaces.com`,
     host_bucket: `%(bucket)s.${region}.digitaloceanspaces.com`,
     website_endpoint: `http://%(bucket)s.website-${region}.digitaloceanspaces.com`,
+    signature_v2: `True`,
 });
 
 tests.digitalocean = {
@@ -45,6 +46,7 @@ tests.digitalocean = {
         "host_base = nyc3.digitaloceanspaces.com",
         "host_bucket = %(bucket)s.nyc3.digitaloceanspaces.com",
         "website_endpoint = http://%(bucket)s.website-nyc3.digitaloceanspaces.com",
+        "signature_v2 = True",
     ],
 };
 
